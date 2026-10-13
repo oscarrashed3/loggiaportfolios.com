@@ -7,6 +7,7 @@
 <meta property="og:title" content="Loggia Portfolio Studio">
 <meta property="og:description" content="Custom websites, digital portfolios and brand identities, led from concept to launch.">
 <meta property="og:type" content="website">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" crossorigin>
 <meta charset="utf-8">
 <title>Loggia Portfolio Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -192,7 +193,7 @@ section{padding-block:clamp(88px,13vw,180px)}
 .facade .view::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 26px 20px 40px rgba(0,0,0,.22);pointer-events:none}
 .facade .view:hover > *{filter:brightness(1.06)}
 /* inside one arch, the others go out of focus */
-.facade .view.hush > *{filter:blur(22px) saturate(.5);opacity:.35}
+.facade .view.hush > *{filter:blur(12px);opacity:.18}
 .facade .name{transition:opacity .5s var(--ease)}
 .facade .name.hush{opacity:0}
 .arcade{touch-action:pan-y}
@@ -604,7 +605,7 @@ footer button{background:none;border:0;color:inherit;font:inherit;letter-spacing
   const ARCH={x:[270,600,930],y:440,w:300,h:520};
   const KEYS=[[0,'o'],[.08,'o'],[.22,0],[.34,0],[.46,1],[.58,1],[.70,2],[.84,2],[.97,'o'],[1,'o']];
   const HOLD=[.28,.52,.77];
-  let vw=1,vh=1,phone=false,p=0,tp=0,running=false;
+  let vw=1,vh=1,phone=false,p=0,tp=0,running=false,drawn=-1;
   const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
   function state(k){
     if(k==='o'){const s=Math.min(vw*(phone?.96:.86)/1200,vh*(phone?.42:.6)/760);return{cx:600,cy:440,s,ax:.5,ay:phone?.56:.6}}
@@ -634,7 +635,7 @@ footer button{background:none;border:0;color:inherit;font:inherit;letter-spacing
     panels.forEach((el,i)=>el.classList.toggle('on',i===active));
     navs.forEach((b,i)=>b.setAttribute('aria-current',i===active?'true':'false'));
   }
-  function measure(){vw=stage.clientWidth;vh=stage.clientHeight;phone=matchMedia('(max-width:760px)').matches;render()}
+  function measure(){vw=stage.clientWidth;vh=stage.clientHeight;phone=matchMedia('(max-width:760px)').matches;drawn=p;render()}
   function progress(){if(compact)return 0;const r=track.getBoundingClientRect();return Math.min(1,Math.max(0,-r.top/(r.height-vh)))}
   /* the walk-through plays once. After a visitor has been through it, the section folds to a single
      screen showing the three arches, so scrolling past is simple; clicking an arch opens the walk again */
@@ -651,7 +652,8 @@ footer button{background:none;border:0;color:inherit;font:inherit;letter-spacing
   }
   function loop(){
     if(!running)return; requestAnimationFrame(loop);
-    tp=progress(); if(tp>.9)seen=true; p+=reduce?(tp-p):(tp-p)*.14; if(Math.abs(tp-p)<.0001)p=tp; render();
+    tp=progress(); if(tp>.9)seen=true; p+=reduce?(tp-p):(tp-p)*.14; if(Math.abs(tp-p)<.0001)p=tp;
+    if(p!==drawn){drawn=p;render()} // nothing to redraw while the page is still
   }
   new IntersectionObserver(es=>{const on=es[0].isIntersecting;if(on&&!running){running=true;requestAnimationFrame(loop)}else if(!on){running=false;fold()}},{rootMargin:'100px 0px'}).observe(track);
   new ResizeObserver(measure).observe(stage);
@@ -702,7 +704,7 @@ try{renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true})}catch(e
 if(renderer){
 const namer=document.getElementById('namer'), nm=document.getElementById('nm'), ghost=document.getElementById('ghost'), after=document.getElementById('after'), hintP=document.getElementById('nmHint'), hint=document.getElementById('turnHint');
 
-renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.setPixelRatio(Math.min(devicePixelRatio,1.5)); // sharp enough, far less GPU work on retina screens
 renderer.shadowMap.enabled=true; renderer.shadowMap.type=THREE.PCFSoftShadowMap;
 renderer.outputColorSpace=THREE.SRGBColorSpace;
 const scene=new THREE.Scene();
@@ -711,7 +713,7 @@ const camera=new THREE.PerspectiveCamera(26,1,.1,100);
 /* light and floor: the floor only shows shadows; the backdrop is CSS so it follows the theme */
 const hemi=new THREE.HemisphereLight(0xffffff,0xffffff,1.6); scene.add(hemi);
 const key=new THREE.DirectionalLight(0xffffff,2.4); key.position.set(-2.2,4.2,-2.4); key.castShadow=true;
-key.shadow.mapSize.set(2048,2048); Object.assign(key.shadow.camera,{left:-6,right:6,top:4,bottom:-3,near:1,far:20});
+key.shadow.mapSize.set(1024,1024); Object.assign(key.shadow.camera,{left:-6,right:6,top:4,bottom:-3,near:1,far:20});
 key.shadow.bias=-.0006; key.shadow.normalBias=.01; scene.add(key);
 const rim=new THREE.DirectionalLight(0xffffff,1.1); rim.position.set(2.5,2,4.5); scene.add(rim);
 const floorMat=new THREE.ShadowMaterial({opacity:.16});
@@ -1061,14 +1063,14 @@ function placeSubline(){
   const capTop=((size-(m.fontBoundingBoxAscent+m.fontBoundingBoxDescent))/2+m.fontBoundingBoxAscent-m.actualBoundingBoxAscent)||size*.2;
   Object.assign(subline.style,{top:(base+capPx*1.11-capTop)+'px',fontSize:size+'px',letterSpacing:track+'px',textIndent:track+'px',lineHeight:'1'});
 }
-let dirty=true, visible=true, last=performance.now();
-new IntersectionObserver(es=>{visible=es[0].isIntersecting}).observe(stage);
+let dirty=true, visible=true, last=performance.now(), lastDraw=0; const lastCam=new THREE.Vector3(1e9,0,0);
+new IntersectionObserver(es=>{visible=es[0].isIntersecting;dirty=true}).observe(stage);
 const v=new THREE.Vector3();
 function frame(t){
   requestAnimationFrame(frame);
   const dt=Math.max(0,Math.min(.05,(t-last)/1000)); last=t; now+=dt;
   if(!visible)return;
-  for(let i=tweens.length-1;i>=0;i--){const w=tweens[i],p=Math.min(1,(now-w.t0)/w.dur);w.fn(w.ease(p));if(p>=1){tweens.splice(i,1);w.res()}}
+  for(let i=tweens.length-1;i>=0;i--){const w=tweens[i],p=Math.min(1,(now-w.t0)/w.dur);w.fn(w.ease(p));if(p>=1){tweens.splice(i,1);w.res();dirty=true}}
   if(!busy&&canHover&&!reduce&&inside&&!drag&&mode!=='preview'&&document.activeElement!==nm&&now-orbit.at>4&&orbit.yaw===0&&orbit.pitch===0&&now-restAt>1.4&&now-lastVisit>4)visit();
   if(!busy&&caret.idle&&caret.form==='dot'&&!reduce)setScale(caret,1,1+.035*Math.sin(now*4)); // the resting dot breathes
   const k=reduce?1:1-Math.pow(.9,dt*60);
@@ -1090,6 +1092,11 @@ function frame(t){
   if(turning!==stage.classList.contains('turning'))stage.classList.toggle('turning',turning);
   floor.visible=camera.position.y>.05; // from underneath there is no floor to cast on
   canvas.classList.toggle('free',free());
+  // draw only when something moved; a resting dot just breathes, which needs a gentle 30 fps at most
+  const cp=camera.position, moving=dirty||tweens.length||drag||Math.abs(cp.x-lastCam.x)+Math.abs(cp.y-lastCam.y)+Math.abs(cp.z-lastCam.z)>1e-5;
+  const breathing=!busy&&caret.idle&&caret.form==='dot'&&!reduce;
+  if(!moving&&!(breathing&&t-lastDraw>33))return;
+  lastCam.copy(cp); lastDraw=t; dirty=false;
   renderer.render(scene,camera);
   // place the subline under the word and the horizon line behind it
   placeSubline();
