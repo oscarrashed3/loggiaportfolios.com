@@ -7,7 +7,7 @@
 <meta property="og:title" content="Loggia Portfolio Studio">
 <meta property="og:description" content="Custom websites, digital portfolios and brand identities, led from concept to launch.">
 <meta property="og:type" content="website">
-<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" crossorigin>
+<link rel="modulepreload" href="./assets/three.module.min.js">
 <meta charset="utf-8">
 <title>Loggia Portfolio Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -115,7 +115,7 @@ html.hide-ph .ph::after{content:none}
   background:linear-gradient(180deg,var(--stage-sky) 0%,var(--stage-sky) calc(var(--hz) - 14%),var(--stage-floor) calc(var(--hz) + 10%),var(--stage-floor-2) 100%)}
 .stage::before{content:"";position:absolute;inset:0;background:var(--stage-sky);opacity:0;transition:opacity .8s var(--ease)}
 .stage.turning::before{opacity:1}
-.stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y;opacity:0;transition:opacity 1.2s var(--ease)}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y;opacity:0;transition:opacity .35s var(--ease)}
 .stage canvas.free{cursor:grab}
 .stage canvas.dragging{cursor:grabbing}
 .subline{transition:opacity .4s var(--ease)}
@@ -686,9 +686,8 @@ footer button{background:none;border:0;color:inherit;font:inherit;letter-spacing
 
 </script>
 
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
 <script type="module">
-import * as THREE from 'three';
+import * as THREE from './assets/three.module.min.js';
 
 /* The hero: a word set in a plain default font, and a small dot that hops across it.
    Each letter the dot lands on is redrawn in Loggia's typeface. In LOGGIA the dot drops
@@ -873,8 +872,7 @@ async function intro(){
     caret.position.set(I.x,0,0); dotMesh.visible=false; iMesh.visible=true; caret.form='I'; typeSubline('PORTFOLIO STUDIO'); done(); return}
   // the dot starts beyond the left edge of the screen and hops in along the floor
   const halfW=tdist*Math.tan(THREE.MathUtils.degToRad(camera.fov/2))*camera.aspect;
-  caret.position.set(-halfW-.6,0,0); caret.rotation.z=0; setScale(caret,1,1); caret.idle=true;
-  await wait(.4);
+  caret.position.set(-halfW-.3,0,0); caret.rotation.z=0; setScale(caret,1,1); caret.idle=true;
   await walk(Ls[0].x-.7);
   for(const i of[0,1,2,3])await hopOnto(Ls[i]);
   await hop(I.x,0,.34,.28);            // drops into the gap
