@@ -1,0 +1,6 @@
+.git
+src
+build
+versions
+build.py
+wrangler.jsonc

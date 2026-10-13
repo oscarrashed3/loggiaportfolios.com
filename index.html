@@ -1,0 +1,1106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Loggia is a portfolio studio designing custom websites, digital portfolios and brand identities for professionals and growing businesses.">
+<meta property="og:title" content="Loggia Portfolio Studio">
+<meta property="og:description" content="Custom websites, digital portfolios and brand identities, led from concept to launch.">
+<meta property="og:type" content="website">
+<meta charset="utf-8">
+<title>Loggia Portfolio Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500&family=Jost:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500&text=BLOM&display=swap">
+<style>
+/* Layout: a 3D wordmark opens the site (a text cursor designs the word), then an
+   editorial grid on limestone paper with one dark band for contact. */
+:root{
+  --paper:#f7f6f3;        /* limestone white, the logo's ground */
+  --plaster:#ecebe6;      /* alternate band */
+  --ink:#17181b;
+  --ink-soft:#5a5d63;
+  --line:rgba(23,24,27,.13);
+  --accent:#3f5a52;       /* verdigris: bronze gone green, used sparingly */
+  --band:#141518; --on-band:#efeee9; --on-band-dim:rgba(239,238,233,.62); --band-line:rgba(239,238,233,.16);
+  --ph:#b4632e;           /* placeholder marker */
+  --logo-filter:none;
+  /* 3D scene */
+  --stage-sky:#f7f6f3; --stage-floor:#ecebe6; --stage-floor-2:#e4e2dc;
+  --scene-letter:#17181b; --scene-plain:#74777d; --scene-caret:#3f5a52; --scene-shadow:.17; --scene-hemi:1.7;
+
+  --f-display:"Newsreader", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --f-body:"Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --f-label:"Jost", "Futura", "Century Gothic", "Helvetica Neue", sans-serif;
+
+  --gutter:clamp(18px,4.2vw,64px); --maxw:1440px; --nav-h:76px;
+  --ease:cubic-bezier(.22,1,.36,1);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#111214; --plaster:#18191c; --ink:#ecebe6; --ink-soft:#a3a5a9; --line:rgba(236,235,230,.13);
+  --accent:#8fb0a5; --band:#0a0b0c; --on-band:#ecebe6; --on-band-dim:rgba(236,235,230,.6); --band-line:rgba(236,235,230,.14);
+  --ph:#e39a63; --logo-filter:invert(1);
+  --stage-sky:#111214; --stage-floor:#18191c; --stage-floor-2:#1d1e21;
+  --scene-letter:#ecebe6; --scene-plain:#8a8d93; --scene-caret:#8fb0a5; --scene-shadow:.5; --scene-hemi:1.3;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#111214; --plaster:#18191c; --ink:#ecebe6; --ink-soft:#a3a5a9; --line:rgba(236,235,230,.13);
+  --accent:#8fb0a5; --band:#0a0b0c; --on-band:#ecebe6; --on-band-dim:rgba(236,235,230,.6); --band-line:rgba(236,235,230,.14);
+  --ph:#e39a63; --logo-filter:invert(1);
+  --stage-sky:#111214; --stage-floor:#18191c; --stage-floor-2:#1d1e21;
+  --scene-letter:#ecebe6; --scene-plain:#8a8d93; --scene-caret:#8fb0a5; --scene-shadow:.5; --scene-hemi:1.3;
+  color-scheme:dark}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:300 17px/1.6 var(--f-body);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit}
+::selection{background:var(--accent);color:var(--paper)}
+:focus-visible{outline:1.5px solid currentColor;outline-offset:4px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--gutter)}
+
+/* type scale */
+.label{font:500 .72rem/1.3 var(--f-label);letter-spacing:.3em;text-transform:uppercase;color:var(--ink-soft)}
+.display{font-family:var(--f-display);font-weight:300;font-optical-sizing:auto;letter-spacing:-.022em;line-height:1.02;text-wrap:balance}
+.display em{font-style:italic;font-weight:300}
+h1.display{font-size:clamp(2.7rem,6.6vw,6.4rem)}
+h2.display{font-size:clamp(2.1rem,4.6vw,4.3rem)}
+.lede{font-size:clamp(1.05rem,1.25vw,1.2rem);color:var(--ink-soft);max-width:36em;text-wrap:pretty}
+
+/* placeholders: unconfirmed content, shown during review */
+.ph{box-shadow:inset 0 -1px 0 var(--ph);color:var(--ph)}
+.ph::after{content:" [confirm]";font:500 .62em var(--f-label);letter-spacing:.1em}
+html.hide-ph .ph{box-shadow:none;color:inherit}
+html.hide-ph .ph::after{content:none}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:.8em;min-height:48px;padding:0 1.5em;font:500 .74rem/1 var(--f-label);letter-spacing:.24em;text-transform:uppercase;text-decoration:none;border:1px solid var(--ink);background:var(--ink);color:var(--paper);cursor:pointer;transition:background .5s var(--ease),color .5s var(--ease)}
+.btn:hover{background:transparent;color:var(--ink)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:var(--paper)}
+.btn .arr{transition:transform .5s var(--ease)}
+.btn:hover .arr{transform:translateX(4px)}
+
+/* nav */
+.nav{position:fixed;inset:0 0 auto 0;z-index:20;padding-top:env(safe-area-inset-top,0px);transition:background .5s var(--ease),transform .6s var(--ease),border-color .5s;border-bottom:1px solid transparent}
+.nav.solid{background:var(--paper);border-color:var(--line)}
+.nav.hidden{transform:translateY(-100%)}
+.nav .wrap{height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;gap:24px}
+.brand img{height:40px;width:auto;filter:var(--logo-filter)}
+.nav ul{display:flex;gap:clamp(18px,2.6vw,40px);list-style:none;margin:0;padding:0}
+.nav ul a{font:500 .7rem/1 var(--f-label);letter-spacing:.28em;text-transform:uppercase;text-decoration:none;padding:10px 0;position:relative}
+.nav ul a::after{content:"";position:absolute;left:0;right:.28em;bottom:2px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.nav ul a:hover::after{transform:scaleX(1)}
+.nav .btn{min-height:40px;padding:0 1.2em}
+.menu-btn{display:none;background:none;border:0;color:inherit;font:500 .7rem/1 var(--f-label);letter-spacing:.28em;text-transform:uppercase;padding:12px 0;cursor:pointer}
+@media (max-width:860px){.nav ul,.nav .btn{display:none}.menu-btn{display:block}.brand img{height:32px}}
+.sheet{position:fixed;inset:0;z-index:30;background:var(--paper);display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top,0px) + 18px) var(--gutter) 32px;opacity:0;visibility:hidden;transition:opacity .45s var(--ease),visibility 0s .45s}
+.sheet.open{opacity:1;visibility:visible;transition:opacity .45s var(--ease)}
+.sheet-top{display:flex;justify-content:space-between;align-items:center;height:58px}
+.sheet nav{margin-top:auto;display:grid;gap:6px}
+.sheet nav a{font:300 clamp(2.4rem,11vw,3.6rem)/1.1 var(--f-display);text-decoration:none;display:block;overflow:hidden}
+.sheet nav a span{display:block;transform:translateY(105%);transition:transform .7s var(--ease)}
+.sheet.open nav a span{transform:none}
+.sheet nav a:nth-child(2) span{transition-delay:.06s}.sheet nav a:nth-child(3) span{transition-delay:.12s}.sheet nav a:nth-child(4) span{transition-delay:.18s}.sheet nav a:nth-child(5) span{transition-delay:.24s}
+.sheet .label{margin-top:28px}
+
+/* hero: the cursor that designs the word */
+.hero{position:relative;height:clamp(640px,100dvh,1000px);overflow:hidden;isolation:isolate;padding:0}
+.stage{position:absolute;inset:0;--hz:52%;
+  background:linear-gradient(180deg,var(--stage-sky) 0%,var(--stage-sky) calc(var(--hz) - 14%),var(--stage-floor) calc(var(--hz) + 10%),var(--stage-floor-2) 100%)}
+.stage::before{content:"";position:absolute;inset:0;background:var(--stage-sky);opacity:0;transition:opacity .8s var(--ease)}
+.stage.turning::before{opacity:1}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y;opacity:0;transition:opacity 1.2s var(--ease)}
+.stage canvas.free{cursor:grab}
+.stage canvas.dragging{cursor:grabbing}
+.subline{transition:opacity .4s var(--ease)}
+.stage.turning .subline{opacity:0}
+.turn-hint{position:absolute;left:50%;top:var(--hint-top,64%);transform:translateX(-50%);margin:0;pointer-events:none;
+  font:500 .64rem/1 var(--f-label);letter-spacing:.28em;text-transform:uppercase;color:var(--ink-soft);opacity:0;transition:opacity .8s var(--ease)}
+.turn-hint.on{opacity:.8}
+.stage canvas.on{opacity:1}
+.stage canvas.pointing{cursor:pointer}
+.stage .fallback{position:absolute;left:50%;top:38%;transform:translate(-50%,-50%);width:min(560px,80%);height:auto;filter:var(--logo-filter)}
+.stage canvas.on ~ .fallback{display:none}
+.subline{position:absolute;left:50%;top:0;margin:0;transform:translateX(-50%);white-space:pre;pointer-events:none;
+  font:400 14px/1 var(--f-label);letter-spacing:.42em;text-indent:.42em;text-transform:uppercase;color:var(--ink)}
+.hero-copy{position:absolute;left:0;right:0;bottom:0;z-index:2;padding-bottom:clamp(28px,5vh,56px)}
+.hero-copy .wrap{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:32px}
+.hero-copy .text{max-width:620px}
+.hero h1.display{font-size:clamp(2rem,3.4vw,3.3rem);line-height:1.06;margin:0}
+.hero-copy .lede{margin:18px 0 28px}
+.hero-copy .ctas{display:flex;flex-wrap:wrap;gap:12px}
+.namer{display:grid;gap:10px;justify-items:end;text-align:right;min-width:min(380px,100%)}
+.namer label{font:500 .7rem/1.3 var(--f-label);letter-spacing:.28em;text-transform:uppercase;color:var(--ink)}
+.namer .row{position:relative;display:flex;align-items:center;width:100%;border-bottom:1px solid var(--ink)}
+.namer .row::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .9s var(--ease)}
+.namer .row:focus-within::after,.namer.nudge .row::after{transform:scaleX(1)}
+.namer input{font:300 clamp(1.25rem,1.7vw,1.6rem)/1 var(--f-display);color:var(--ink);-webkit-text-fill-color:var(--ink);caret-color:var(--accent);opacity:1;background:transparent;border:0;padding:10px 0 12px;width:100%;text-transform:uppercase;letter-spacing:.06em;position:relative;z-index:1}
+.namer input:focus{outline:none}
+.namer .field{position:relative;flex:1;min-width:0;overflow:hidden;margin-right:14px}
+.namer .ghost{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);overflow:hidden;font:300 clamp(1.25rem,1.7vw,1.6rem)/1 var(--f-display);color:var(--ink-soft);opacity:.55;letter-spacing:.06em;text-transform:uppercase;pointer-events:none;white-space:pre}
+.namer .ghost::after{content:"";display:inline-block;width:1px;height:.9em;margin-left:2px;vertical-align:-.1em;background:currentColor;animation:blink 1s steps(1) infinite}
+.namer.typing .ghost,.namer input:focus + .ghost{opacity:0}
+@keyframes blink{50%{opacity:0}}
+.namer .go{background:none;border:0;color:var(--ink);font:500 .72rem/1 var(--f-label);letter-spacing:.24em;text-transform:uppercase;cursor:pointer;padding:0 0 0 18px;white-space:nowrap}
+.namer .hint{margin:0;font:400 .88rem/1.4 var(--f-body);color:var(--ink-soft)}
+.namer .after{display:flex;gap:22px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.namer .after[hidden]{display:none}
+.namer .mine{font:500 .72rem/1 var(--f-label);letter-spacing:.24em;text-transform:uppercase;text-decoration:none;color:var(--paper);background:var(--ink);padding:12px 16px}
+.namer .back{background:none;border:1px solid var(--ink);padding:11px 16px;color:var(--ink);font:500 .72rem/1 var(--f-label);letter-spacing:.24em;text-transform:uppercase;cursor:pointer}
+@media (max-width:760px){
+  .hero{height:auto;display:flex;flex-direction:column}
+  .stage{position:relative;height:62svh;min-height:380px}
+  .hero-copy{position:relative;padding-top:12px}
+  .hero-copy .wrap{grid-template-columns:1fr;gap:36px}
+  .namer{justify-items:start;text-align:left;min-width:0}
+  .namer .after{justify-content:flex-start}
+}
+
+
+/* sections */
+section{padding-block:clamp(88px,13vw,180px)}
+.split{display:grid;grid-template-columns:minmax(150px,3fr) 9fr;gap:clamp(24px,4vw,64px)}
+.split > *{min-width:0}
+@media (max-width:760px){.split{grid-template-columns:1fr}}
+.split > .label{padding-top:.9em}
+
+.studio .center{display:grid;justify-items:center;text-align:center}
+.studio .statement{font:300 clamp(1.7rem,3.3vw,3.05rem)/1.18 var(--f-display);letter-spacing:-.015em;margin:0 auto;max-width:21em;text-wrap:balance}
+.studio .statement em{font-style:italic}
+.studio .define{margin:clamp(48px,6vw,88px) auto 0;display:grid;justify-items:center;gap:14px;max-width:620px;padding-top:28px;border-top:1px solid var(--line)}
+.define dt{font:400 1.5rem/1.2 var(--f-display);font-style:italic}
+.define dt small{display:block;font:400 .78rem/1.6 var(--f-body);font-style:normal;color:var(--ink-soft);letter-spacing:.02em}
+.define dd{margin:0;color:var(--ink-soft);max-width:34em;text-wrap:pretty}
+
+/* services */
+/* services: an arcade of three arches, one per service. Scrolling walks the camera into each arch in turn. */
+.services{padding:0;background:var(--paper)}
+.arcade-track{position:relative;height:430svh}
+.arcade-track.compact{height:100svh!important}
+.arcade-track.compact .panels{display:none}
+.arcade{position:sticky;top:0;height:100svh;overflow:hidden}
+.facade{position:absolute;left:0;top:0;width:1200px;height:760px;transform-origin:0 0;will-change:transform}
+.facade .view{position:absolute;top:180px;width:300px;height:520px;border-radius:150px 150px 0 0;overflow:hidden;background:var(--plaster);cursor:pointer;
+  box-shadow:inset 22px 18px 36px rgba(0,0,0,.28)}
+.facade .view > *{position:absolute;inset:0;width:100%;height:100%;transform:scale(var(--depth,1.12));transition:filter .7s var(--ease),opacity .7s var(--ease)}
+.facade .view img{object-fit:cover}
+.facade .view::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 26px 20px 40px rgba(0,0,0,.22);pointer-events:none}
+.facade .view:hover > *{filter:brightness(1.06)}
+/* inside one arch, the others go out of focus */
+.facade .view.hush > *{filter:blur(22px) saturate(.5);opacity:.35}
+.facade .name{transition:opacity .5s var(--ease)}
+.facade .name.hush{opacity:0}
+.arcade{touch-action:pan-y}
+.facade .wall{position:absolute;left:-2400px;top:-1600px;width:6000px;height:4000px;pointer-events:none}
+.facade .wall .stone{fill:var(--paper)}
+.facade .wall .trim{fill:none;stroke:var(--line);stroke-width:1.5}
+.facade .wall .ledge{fill:var(--plaster)}
+.facade .name{position:absolute;top:722px;width:300px;text-align:center;font:500 13px/1 var(--f-label);letter-spacing:.3em;text-transform:uppercase;color:var(--ink-soft);pointer-events:none}
+.v1{left:120px}.v2{left:450px}.v3{left:780px}
+.n1{left:120px}.n2{left:450px}.n3{left:780px}
+
+.arcade-intro{position:absolute;left:0;right:0;top:calc(var(--nav-h) + 3vh);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.arcade-intro .wrap{display:grid;gap:14px}
+.arcade-intro h2{margin:0}
+.arcade-intro p{margin:0;color:var(--ink-soft)}
+.arcade.zoomed .arcade-intro{opacity:0;transform:translateY(-16px);pointer-events:none}
+.panels{position:absolute;right:0;top:0;bottom:0;width:min(520px,42vw);padding:0 var(--gutter) 0 56px;
+  background:linear-gradient(90deg,transparent,var(--paper) 56px);opacity:0;transition:opacity .5s var(--ease)}
+.arcade.deep .panels{opacity:1}
+.panels .panel{left:56px;right:var(--gutter);top:50%;bottom:auto;transform:translateY(calc(-50% + 24px))}
+.panels .panel.on{transform:translateY(-50%)}
+.panel{position:absolute;inset:0;display:grid;align-content:center;gap:20px;opacity:0;transform:translateY(24px);pointer-events:none;transition:opacity .55s var(--ease),transform .7s var(--ease)}
+.panel.on{opacity:1;transform:none;pointer-events:auto}
+.panel .count{font:300 1.1rem/1 var(--f-display);font-style:italic;color:var(--accent);font-variant-numeric:tabular-nums}
+.panel h3{font:300 clamp(2rem,3.4vw,3.2rem)/1.04 var(--f-display);letter-spacing:-.015em;margin:0}
+.panel p{margin:0;color:var(--ink-soft)}
+.panel ul{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:9px;font:500 .7rem/1.4 var(--f-label);letter-spacing:.2em;text-transform:uppercase}
+.panel ul li::before{content:"";display:inline-block;width:14px;height:1px;background:var(--accent);vertical-align:middle;margin-right:12px}
+.arch-nav{position:absolute;left:var(--gutter);bottom:28px;display:flex;gap:22px;flex-wrap:wrap}
+.arch-nav button{background:none;border:0;padding:6px 0;color:var(--ink-soft);font:500 .66rem/1 var(--f-label);letter-spacing:.24em;text-transform:uppercase;cursor:pointer;border-bottom:1px solid transparent;transition:color .3s,border-color .3s}
+.arch-nav button[aria-current="true"]{color:var(--ink);border-color:var(--ink)}
+@media (max-width:760px){
+  .arcade-track{height:400svh}
+  .panels{left:var(--gutter);right:var(--gutter);top:auto;bottom:64px;width:auto;height:auto;min-height:220px;padding:0;background:none;opacity:1}
+  .panels .panel{left:0;right:0;top:auto;bottom:0;transform:translateY(24px)}
+  .panels .panel.on{transform:none}
+  .panel{align-content:end;gap:12px}
+  .panel h3{font-size:1.9rem}
+  .panel p{font-size:.95rem}
+  .panel ul{display:none}
+  .arch-nav{bottom:18px;gap:16px}
+}
+
+
+/* process */
+.process .grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,6vw,110px);align-items:start}
+.process .sticky{position:sticky;top:calc(var(--nav-h) + 40px);display:grid;gap:24px}
+.steps{list-style:none;margin:0;padding:0;counter-reset:s}
+.step{display:grid;grid-template-columns:72px minmax(0,1fr);gap:18px;padding-block:34px;border-top:1px solid var(--line)}
+.step:last-child{border-bottom:1px solid var(--line)}
+.step .n{font:300 1.05rem/1.4 var(--f-display);font-style:italic;color:var(--accent);font-variant-numeric:tabular-nums}
+.step h3{font:400 .82rem/1.4 var(--f-label);letter-spacing:.26em;text-transform:uppercase;margin:0 0 12px}
+.step p{margin:0;color:var(--ink-soft);max-width:34em}
+@media (max-width:860px){.process .grid{grid-template-columns:1fr}.process .sticky{position:static}.step{grid-template-columns:52px minmax(0,1fr)}}
+
+/* work */
+.work header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:24px;margin-bottom:clamp(40px,5vw,72px)}
+.work header .lede{max-width:28em;margin:0}
+.works{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(36px,4vw,56px) clamp(16px,2vw,28px)}
+.wk{grid-column:span 2;text-decoration:none;display:grid;gap:16px;align-content:start}
+.wk:nth-child(4){grid-column:2 / span 2} /* the second row of two sits centred under the first row of three */
+@media (max-width:1100px){.works{grid-template-columns:repeat(4,minmax(0,1fr))}.wk:nth-child(n){grid-column:span 2}.wk:nth-child(5){grid-column:2 / span 2}}
+.wk .media{position:relative;overflow:hidden;aspect-ratio:16/10;background:var(--plaster);max-width:100%}
+.wk .media img{width:100%;height:100%;object-fit:cover;transform:scale(1.02);transition:transform 1.4s var(--ease)}
+a.wk:hover .media img,a.wk:hover .cover > *{transform:scale(1.06)}
+.wk .meta{display:grid;gap:6px}
+.wk h3{font:300 clamp(1.5rem,2.2vw,2rem)/1.1 var(--f-display);margin:0;letter-spacing:-.01em}
+.wk .kind{font:500 .66rem/1.4 var(--f-label);letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft)}
+.wk p{margin:0;color:var(--ink-soft);max-width:32em;font-size:.97rem}
+.cover{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.cover > *{transition:transform 1.4s var(--ease)}
+.cover.bloom{background:#ebe3da;color:#151312}
+.cover.bloom b{font:500 clamp(2.6rem,5.6vw,4.4rem)/1 "EB Garamond","Iowan Old Style",Palatino,Georgia,serif;letter-spacing:.05em}
+.cover.concrete{background:#fff;color:#36425a}
+.cover.concrete img{width:62%;height:auto}
+.wk .media .tag.on-img{position:absolute;left:16px;bottom:14px;color:#fff;font:500 .6rem/1 var(--f-label);letter-spacing:.24em;text-transform:uppercase;opacity:.85}
+.cover .tag{position:absolute;left:16px;bottom:14px;color:inherit;font:500 .6rem/1 var(--f-label);letter-spacing:.24em;text-transform:uppercase;opacity:.7}
+@media (max-width:760px){.works{grid-template-columns:1fr}.wk,.wk:nth-child(n){grid-column:1 / -1}}
+
+/* founder */
+.founder{background:var(--plaster)}
+.founder .grid{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:clamp(32px,6vw,110px);align-items:center}
+.portrait{position:relative;aspect-ratio:4/5;overflow:hidden;border-radius:999px 999px 0 0;max-width:440px;width:100%}
+.portrait img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.04)}
+.founder blockquote{margin:0;font:300 clamp(1.6rem,2.9vw,2.6rem)/1.22 var(--f-display);letter-spacing:-.012em;text-wrap:pretty}
+.founder blockquote em{font-style:italic}
+.founder .body{margin-top:32px;display:grid;gap:16px;color:var(--ink-soft);max-width:36em}
+.founder .body p{margin:0}
+.founder .sig{margin-top:28px;display:flex;gap:16px;align-items:baseline;flex-wrap:wrap}
+.founder .sig b{font:400 1.25rem var(--f-display);font-style:italic}
+@media (max-width:860px){.founder .grid{grid-template-columns:1fr}.portrait{max-width:320px}}
+
+/* contact band */
+.contact{background:var(--band);color:var(--on-band)}
+.contact .label{color:var(--on-band-dim)}
+.contact .grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(40px,6vw,110px)}
+.contact .lede{color:var(--on-band-dim);margin-top:24px}
+.contact .direct{margin-top:40px;display:grid;gap:8px}
+.contact .direct a,.contact .direct span.mail{font:300 clamp(1.05rem,4.2vw,1.4rem) var(--f-display);text-decoration:none;overflow-wrap:anywhere}
+form{display:grid;gap:26px}
+.field{display:grid;gap:10px}
+.field label{font:500 .68rem/1 var(--f-label);letter-spacing:.26em;text-transform:uppercase;color:var(--on-band-dim)}
+.field input,.field textarea,.field select{font:300 1.1rem/1.4 var(--f-body);color:var(--on-band);background:transparent;border:0;border-bottom:1px solid var(--band-line);padding:8px 0 12px;border-radius:0;width:100%;transition:border-color .4s}
+.field select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%);background-position:calc(100% - 12px) 55%,calc(100% - 7px) 55%;background-size:5px 5px;background-repeat:no-repeat}
+.field select option{color:#17181b;background:#f7f6f3}
+.field textarea{resize:vertical;min-height:110px}
+.field :is(input,textarea,select):focus{outline:none;border-color:var(--on-band)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+@media (max-width:560px){.row2{grid-template-columns:1fr}}
+.contact .btn{background:var(--on-band);color:var(--band);border-color:var(--on-band);justify-self:start}
+.contact .btn:hover{background:transparent;color:var(--on-band)}
+.form-note{min-height:1.6em;margin:0;color:var(--on-band-dim);font-size:.95rem}
+.form-note.err{color:var(--on-band)}
+.hp{position:absolute;left:-9999px}
+@media (max-width:860px){.contact .grid{grid-template-columns:1fr}}
+
+/* footer */
+footer{padding-block:clamp(64px,8vw,110px) 36px}
+footer .top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:40px;align-items:end;padding-bottom:48px;border-bottom:1px solid var(--line)}
+footer .top img{width:min(380px,70vw);height:auto;filter:var(--logo-filter)}
+footer nav{display:flex;flex-wrap:wrap;gap:12px 32px}
+footer nav a{font:500 .7rem/1 var(--f-label);letter-spacing:.26em;text-transform:uppercase;text-decoration:none;padding:6px 0}
+footer .legal{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;padding-top:24px;font:500 .64rem/1.6 var(--f-label);letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft)}
+footer button{background:none;border:0;color:inherit;font:inherit;letter-spacing:inherit;text-transform:inherit;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:4px}
+
+/* reveal (only below the first screen, only with motion) */
+/* content stays readable at rest; reveals only lift into place */
+.js-motion .rv{transform:translateY(28px);transition:transform 1.3s var(--ease)}
+.js-motion .rv.in{transform:none}
+.intro .rv0{animation:rise 1.4s var(--ease) both}
+.intro .rv0.d1{animation-delay:.12s}.intro .rv0.d2{animation-delay:.24s}.intro .rv0.d3{animation-delay:.36s}
+@keyframes rise{from{opacity:0;transform:translateY(22px);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .intro .rv0{animation:none}
+  .scroll-cue::after{animation:none;transform:none}
+  *{transition-duration:.01ms!important}
+}
+</style>
+</head>
+<body>
+
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Loggia Portfolio Studio, home"><img src="assets/logo-loggia.png" width="422" height="132" alt="Loggia Portfolio Studio"></a>
+    <ul>
+      <li><a href="#studio">Studio</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#work">Work</a></li>
+    </ul>
+    <a class="btn" href="#contact">Start a project</a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sheet">Menu</button>
+  </div>
+</header>
+
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Menu">
+  <div class="sheet-top">
+    <img src="assets/logo-loggia.png" alt="" style="height:30px;width:auto;filter:var(--logo-filter)">
+    <button class="menu-btn" id="closeBtn" style="display:block">Close</button>
+  </div>
+  <nav>
+    <a href="#studio"><span>Studio</span></a>
+    <a href="#services"><span>Services</span></a>
+    <a href="#process"><span>Process</span></a>
+    <a href="#work"><span>Work</span></a>
+    <a href="#contact"><span>Contact</span></a>
+  </nav>
+  <span class="label">Websites, portfolios, identities</span>
+</div>
+
+<main id="top">
+  <section class="hero intro" id="hero" aria-label="Introduction">
+    <div class="stage" id="stage">
+      <canvas id="scene" aria-hidden="true"></canvas>
+      <img class="fallback" src="assets/logo-loggia.png" width="422" height="132" alt="">
+      <p class="subline" id="subline" aria-hidden="true"></p>
+      <p class="turn-hint" id="turnHint" aria-hidden="true">Drag to turn it</p>
+    </div>
+    <div class="hero-copy">
+      <div class="wrap">
+        <div class="text">
+          <h1 class="display rv0"><span class="sr">Loggia Portfolio Studio. </span>Websites and portfolios, designed around you.</h1>
+          <p class="lede rv0 d1">Custom websites, digital portfolios and brand identities for professionals and growing businesses.</p>
+          <div class="ctas rv0 d2">
+            <a class="btn" href="#contact">Start a project <span class="arr" aria-hidden="true">→</span></a>
+            <a class="btn ghost" href="#work">See the work</a>
+          </div>
+        </div>
+        <form class="namer rv0 d3" id="namer" autocomplete="off">
+          <label for="nm">Try it with your name</label>
+          <div class="row"><span class="field"><input id="nm" name="nm" maxlength="24" spellcheck="false" aria-describedby="nmHint"><span class="ghost" id="ghost" aria-hidden="true"></span></span><button class="go" type="submit">Design it <span aria-hidden="true">→</span></button></div>
+          <p class="hint" id="nmHint">Type a name and watch the dot design it.</p>
+          <div class="after" id="after" hidden>
+            <a class="mine" href="#contact" id="mine">Make it my site <span aria-hidden="true">→</span></a>
+            <button class="back" type="button" id="back">Return to Loggia</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="studio" id="studio">
+    <div class="wrap center">
+      <div>
+        <p class="statement rv">Loggia is a portfolio studio. Each project is led from concept to launch, covering positioning and storytelling, visual identity, site design and development, so the finished site reflects the client's own brand.</p>
+        <dl class="define rv">
+          <dt>loggia <small>/ˈlɒdʒ(i)ə/, noun, from Italian</small></dt>
+          <dd>A gallery or room with one side open to the air, set behind a row of arches. It is the covered space where a building meets the street. A portfolio site does the same job for a person or a business.</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="services" id="services" aria-label="Services">
+    <div class="arcade-track" id="arcadeTrack">
+      <div class="arcade" id="arcade">
+        <div class="facade" id="facade">
+          <div class="view v1" data-arch="0"><img src="assets/svc-portfolio.webp" alt="" loading="lazy"></div>
+          <div class="view v2" data-arch="1"><img src="assets/svc-business.webp" alt="" loading="lazy"></div>
+          <div class="view v3" data-arch="2"><img src="assets/svc-identity.webp" alt="" loading="lazy"></div>
+          <svg class="wall" viewBox="-2400 -1600 6000 4000" aria-hidden="true">
+            <path class="stone" fill-rule="evenodd" d="M-2400 -1600H3600V2400H-2400Z M120 700V330A150 150 0 0 1 420 330V700Z M450 700V330A150 150 0 0 1 750 330V700Z M780 700V330A150 150 0 0 1 1080 330V700Z"/>
+            <path class="trim" d="M96 700V330A174 174 0 0 1 444 330V700 M426 700V330A174 174 0 0 1 774 330V700 M756 700V330A174 174 0 0 1 1104 330V700"/>
+            <path class="ledge" d="M100 322h24v12h-24z M416 322h38v12h-38z M746 322h38v12h-38z M1076 322h24v12h-24z"/>
+            <path class="trim" d="M40 112H1160 M40 124H1160 M-2400 700H3600"/>
+          </svg>
+          <span class="name n1">Portfolios</span><span class="name n2">Businesses</span><span class="name n3">Identities</span>
+        </div>
+        <div class="arcade-intro"><div class="wrap">
+          <span class="label">Services</span>
+          <h2 class="display">Three ways to work together.</h2>
+          <p>Scroll, swipe or use the arrow keys to step through each arch.</p>
+        </div></div>
+        <div class="panels" aria-live="polite">
+          <div class="panel" data-panel="0"><span class="count">i.</span><h3>Personal portfolio sites</h3>
+            <p>For founders, athletes, creatives and professionals whose story deserves more than a template. A site shaped around who you are, with one signature moment people remember.</p>
+            <ul><li>Positioning &amp; copy</li><li>Custom design</li><li>Signature interaction</li><li>Build &amp; launch</li></ul></div>
+          <div class="panel" data-panel="1"><span class="count">ii.</span><h3>Small-business websites</h3>
+            <p>For practices, studios and growing companies. A clear, fast site that explains what you do, shows the work and turns visitors into conversations.</p>
+            <ul><li>Structure &amp; messaging</li><li>Design &amp; development</li><li>Enquiry flow</li><li>Search &amp; sharing</li></ul></div>
+          <div class="panel" data-panel="2"><span class="count">iii.</span><h3>Brand identity</h3>
+            <p>A wordmark, palette and type system built to hold together from a business card to a homepage, with a short guide so it stays consistent.</p>
+            <ul><li>Wordmark</li><li>Colour &amp; typography</li><li>Brand guidelines</li></ul></div>
+        </div>
+        <nav class="arch-nav" aria-label="Services">
+          <button type="button" data-go="0">Portfolios</button><button type="button" data-go="1">Businesses</button><button type="button" data-go="2">Identities</button>
+        </nav>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="process" id="process">
+    <div class="wrap grid">
+      <div class="sticky">
+        <h2 class="display rv">Built from your story, not from a template.</h2>
+        <p class="lede rv">Every site starts with a conversation about you and ends with one signature moment made only for you, like the dot that drew our name. You click through it on your own phone long before launch, and one person carries it from the first idea to the live site.</p>
+      </div>
+      <ol class="steps">
+        <li class="step rv"><span class="n">i.</span><div><h3>Positioning &amp; storytelling</h3><p>We start with who you are, who the site is for and what it should make them do. That becomes the outline and the words.</p></div></li>
+        <li class="step rv"><span class="n">ii.</span><div><h3>Visual identity</h3><p>Type, colour and the signature idea that makes the site yours. For brand projects this is where the wordmark is drawn.</p></div></li>
+        <li class="step rv"><span class="n">iii.</span><div><h3>Site design</h3><p>Every page designed and reviewed as a live prototype you can click through on your own phone, not a static mockup.</p></div></li>
+        <li class="step rv"><span class="n">iv.</span><div><h3>Development &amp; launch</h3><p>Built by hand, fast on every device, with search, sharing images and analytics set up before it goes live on your domain.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="work" id="work">
+    <div class="wrap">
+      <header>
+        <div style="display:grid;gap:22px"><h2 class="display rv">Every site opens with one moment of its own.</h2></div>
+        <p class="lede rv">Each project gets a signature interaction designed for that client. Here is what opens each one.</p>
+      </header>
+      <div class="works">
+        <a class="wk rv" href="https://oscarrashed.com" target="_blank" rel="noopener">
+          <div class="media"><img src="assets/work-oscarrashed.jpg" alt="The oscarrashed.com homepage: a large name set behind a cut-out photo of a tennis player mid-swing" loading="lazy"></div>
+          <div class="meta"><h3>Oscar Rashed</h3><span class="kind">Personal portfolio · oscarrashed.com</span></div>
+          <p>A monochrome site where his name sits behind his own cut-out photograph.</p>
+        </a>
+        <a class="wk rv" href="https://oscarrashed.com/world/" target="_blank" rel="noopener">
+          <div class="media"><img src="assets/work-world.webp" alt="An illustrated desk by a window with a laptop, a record, a tennis racket and pinned postcards" loading="lazy"></div>
+          <div class="meta"><h3>Scaro's World</h3><span class="kind">Interactive portfolio</span></div>
+          <p>An illustrated desk you explore. Every object opens a part of the story.</p>
+        </a>
+        <div class="wk rv">
+          <div class="media"><div class="cover bloom" role="img" aria-label="The BLOOM wordmark"><b>BLOOM</b><span class="tag">Coming soon</span></div></div>
+          <div class="meta"><h3>BLOOM</h3><span class="kind">Advisory practice · Barcelona</span></div>
+          <p>An advisory firm for culture change, internal communications and organisational transformation.</p>
+        </div>
+        <a class="wk rv" href="https://novatrailco.com" target="_blank" rel="noopener">
+          <div class="media"><img src="assets/work-novatrail-site.webp" alt="The novatrailco.com homepage: the headline Powered by us beside a 3D kinetic floor tile on springs" loading="lazy"></div>
+          <div class="meta"><h3>Novatrail</h3><span class="kind">Startup website · novatrailco.com</span></div>
+          <p>Opens on a 3D energy tile that visitors can rotate and step on.</p>
+        </a>
+        <div class="wk rv">
+          <div class="media"><img src="assets/work-concrete.webp" alt="The Concrete Investments logo over the Brandenburg Gate at night and glass towers seen from below" loading="lazy"><span class="tag on-img">Coming soon</span></div>
+          <div class="meta"><h3>Concrete Investments</h3><span class="kind">Real-estate portfolio · Geneva</span></div>
+          <p>An interactive portfolio that maps the firm's projects across Europe.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="founder" id="founder">
+    <div class="wrap grid">
+      <div class="portrait rv"><img src="assets/oscar.webp" alt="Portrait of Oscar Rashed" loading="lazy"></div>
+      <div>
+        <blockquote class="rv">“Everyone has a story worth telling in their <em>own</em> way.”</blockquote>
+        <div class="body rv">
+          <p>I've lived in a lot of different worlds: tennis courts, startup pitches, a real-estate office in Geneva. Moving between them, I wanted a place of my own, so I built one. That's how Loggia started.</p>
+          <p>Building it, I realised everyone has a story to share. There's a short answer for everything, but we all deserve the time and the space to say who we are, in our own way. That's what Loggia is for.</p>
+        </div>
+        <div class="sig"><b>Oscar Rashed</b><span class="label">Founder, Loggia</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="wrap grid">
+      <div>
+        <h2 class="display rv">Start with a <em>conversation</em>.</h2>
+        <p class="lede">Tell me a little about you and what you need. I'll reply with a few questions and a first idea.</p>
+        <div class="direct">
+          <span class="label">Or write directly</span>
+          <a class="mail" id="mail" href="mailto:orashed@zagmail.gonzaga.edu">orashed@zagmail.gonzaga.edu</a>
+        </div>
+      </div>
+      <form id="form" novalidate>
+        <div class="row2">
+          <div class="field"><label for="f-name">Name</label><input id="f-name" name="name" autocomplete="name" required></div>
+          <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+        </div>
+        <div class="field"><label for="f-kind">I'm looking for</label>
+          <select id="f-kind" name="kind"><option>A personal portfolio site</option><option>A small-business website</option><option>A brand identity</option><option>Not sure yet</option></select></div>
+        <div class="field"><label for="f-msg">About you and the project</label><textarea id="f-msg" name="message" required></textarea></div>
+        <input class="hp" type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="btn" type="submit">Send enquiry <span class="arr" aria-hidden="true">→</span></button>
+        <p class="form-note" id="formNote" role="status"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="top">
+      <img src="assets/logo-loggia.png" width="422" height="132" alt="Loggia Portfolio Studio" loading="lazy">
+      <nav aria-label="Footer"><a href="#studio">Studio</a><a href="#services">Services</a><a href="#work">Work</a><a href="#contact">Contact</a><a href="https://oscarrashed.com" target="_blank" rel="noopener">Oscar Rashed ↗</a></nav>
+    </div>
+    <div class="legal"><span>© 2026 Loggia Portfolio Studio</span></div>
+  </div>
+</footer>
+
+<script>
+/* page behaviour (no 3D) */
+(function(){
+  const root=document.documentElement, motion=!matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // nav: solid after hero, hides on scroll down
+  const nav=document.getElementById('nav'); let lastY=scrollY;
+  addEventListener('scroll',()=>{const y=scrollY,h=innerHeight*.6;
+    nav.classList.toggle('solid',y>h);
+    nav.classList.toggle('hidden',y>h&&y>lastY+2&&!sheet.classList.contains('open'));
+    if(y<lastY-2)nav.classList.remove('hidden'); lastY=y},{passive:true});
+
+  // mobile menu
+  const sheet=document.getElementById('sheet'),mb=document.getElementById('menuBtn'),cb=document.getElementById('closeBtn');
+  const setMenu=o=>{sheet.classList.toggle('open',o);mb.setAttribute('aria-expanded',o);document.body.style.overflow=o?'hidden':'';
+    document.querySelector('main').inert=o; (o?cb:mb).focus()};
+  mb.onclick=()=>setMenu(true); cb.onclick=()=>setMenu(false);
+  sheet.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
+  addEventListener('keydown',e=>{if(e.key==='Escape'&&sheet.classList.contains('open'))setMenu(false)});
+
+  // reveals: only for elements below the first screen
+  if(motion&&'IntersectionObserver' in window){
+    const els=[...document.querySelectorAll('.rv')].filter(el=>el.getBoundingClientRect().top>innerHeight);
+    root.classList.add('js-motion');
+    document.querySelectorAll('.rv').forEach(el=>{if(!els.includes(el))el.classList.add('in')});
+    const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -10% 0px',threshold:.1});
+    els.forEach(el=>io.observe(el));
+  }
+
+  // placeholders toggle
+  const pt=document.getElementById('phToggle');
+  if(pt)pt.onclick=()=>{const h=root.classList.toggle('hide-ph');pt.textContent=h?'Show placeholders':'Hide placeholders'};
+
+  // contact form: FormSubmit relays each enquiry to the studio inbox
+  const ENDPOINT='https://formsubmit.co/ajax/orashed@zagmail.gonzaga.edu';
+  const form=document.getElementById('form'),note=document.getElementById('formNote');
+  form.addEventListener('submit',async e=>{e.preventDefault();note.className='form-note';
+    if(!form.checkValidity()){note.textContent='Please add your name, a valid email and a few words about the project.';note.classList.add('err');return}
+    if(form.botcheck.checked)return;
+    if(!ENDPOINT){note.textContent='The form isn’t connected yet. Please email '+document.getElementById('mail').textContent+' and your message will reach me.';note.classList.add('err');return}
+    note.textContent='Sending…';
+    try{const r=await fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({...Object.fromEntries(new FormData(form)),_subject:'New Loggia enquiry from '+form.elements.name.value.trim(),_replyto:form.elements.email.value.trim(),_template:'table'})});
+      const j=await r.json().catch(()=>({})); if(!r.ok||String(j.success)!=='true')throw 0; form.reset(); note.textContent='Thank you. Your enquiry arrived and I’ll be in touch soon.';}
+    catch{note.textContent='That didn’t go through. Please email '+document.getElementById('mail').textContent+' instead.';note.classList.add('err')}
+  });
+})();
+/* the arcade: scroll progress through the tall track moves a camera over the facade.
+   Keyframes hold on the overview, then on each arch, then pull back out. */
+(function(){
+  const track=document.getElementById('arcadeTrack'), stage=document.getElementById('arcade'), facade=document.getElementById('facade');
+  if(!track)return;
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const views=[...facade.querySelectorAll('.view')], names=[...facade.querySelectorAll('.name')], panels=[...stage.querySelectorAll('.panel')], navs=[...stage.querySelectorAll('[data-go]')];
+  const ARCH={x:[270,600,930],y:440,w:300,h:520};
+  const KEYS=[[0,'o'],[.08,'o'],[.22,0],[.34,0],[.46,1],[.58,1],[.70,2],[.84,2],[.97,'o'],[1,'o']];
+  const HOLD=[.28,.52,.77];
+  let vw=1,vh=1,phone=false,p=0,tp=0,running=false;
+  const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+  function state(k){
+    if(k==='o'){const s=Math.min(vw*(phone?.96:.86)/1200,vh*(phone?.42:.6)/760);return{cx:600,cy:440,s,ax:.5,ay:phone?.56:.6}}
+    if(phone)return{cx:ARCH.x[k],cy:ARCH.y,s:Math.min(vh*.5/ARCH.h,vw*.84/ARCH.w),ax:.5,ay:.36};
+    const room=vw-Math.min(520,vw*.42); // the right-hand column belongs to the text
+    return{cx:ARCH.x[k],cy:ARCH.y+20,s:Math.min(vh*.74/ARCH.h,room*.5/ARCH.w),ax:room*.5/vw,ay:.5};
+  }
+  function at(prog){
+    let i=0; while(i<KEYS.length-2&&prog>KEYS[i+1][0])i++;
+    const [p0,k0]=KEYS[i],[p1,k1]=KEYS[i+1], t=p1>p0?ease(Math.min(1,Math.max(0,(prog-p0)/(p1-p0)))):0;
+    const a=state(k0),b=state(k1), dip=(k0!=='o'&&k1!=='o'&&k0!==k1)?1-.3*Math.sin(Math.PI*t):1; // pull back a little while moving between arches
+    const L=(x,y)=>x+(y-x)*t;
+    return{cx:L(a.cx,b.cx),cy:L(a.cy,b.cy),s:Math.exp(L(Math.log(a.s),Math.log(b.s)))*dip,ax:L(a.ax,b.ax),ay:L(a.ay,b.ay)};
+  }
+  const nearest=q=>{let b=0;HOLD.forEach((h,i)=>{if(Math.abs(q-h)<Math.abs(q-HOLD[b]))b=i});return b};
+  function render(){
+    const c=at(p), o=state('o'), z=state(0);
+    facade.style.transform=`translate(${vw*c.ax-c.cx*c.s}px,${vh*c.ay-c.cy*c.s}px) scale(${c.s})`;
+    const zf=Math.min(1,Math.max(0,(c.s-o.s)/(z.s-o.s)));
+    facade.style.setProperty('--depth',(1.14-.14*zf).toFixed(4)); // the pictures sit deeper than the wall, so they move less
+    stage.classList.toggle('zoomed',zf>.08);
+    stage.classList.toggle('deep',zf>.5);
+    let active=-1; HOLD.forEach((h,i)=>{if(Math.abs(p-h)<.11)active=i});
+    const near=nearest(p);
+    views.forEach((v,i)=>v.classList.toggle('hush',zf>.3&&i!==near));
+    names.forEach((n,i)=>n.classList.toggle('hush',zf>.3&&i!==near));
+    panels.forEach((el,i)=>el.classList.toggle('on',i===active));
+    navs.forEach((b,i)=>b.setAttribute('aria-current',i===active?'true':'false'));
+  }
+  function measure(){vw=stage.clientWidth;vh=stage.clientHeight;phone=matchMedia('(max-width:760px)').matches;render()}
+  function progress(){if(compact)return 0;const r=track.getBoundingClientRect();return Math.min(1,Math.max(0,-r.top/(r.height-vh)))}
+  /* the walk-through plays once. After a visitor has been through it, the section folds to a single
+     screen showing the three arches, so scrolling past is simple; clicking an arch opens the walk again */
+  let compact=false, seen=false;
+  function fold(){
+    if(compact||!seen)return;
+    // keep whatever is on screen exactly where it is (some browsers do this themselves, some don't)
+    const next=track.closest('section').nextElementSibling, y0=next&&next.getBoundingClientRect().top;
+    compact=true; track.classList.add('compact'); p=tp=0; render();
+    if(next){const d=next.getBoundingClientRect().top-y0; if(Math.abs(d)>1)scrollBy({top:d,behavior:'instant'})}
+  }
+  function unfold(){
+    if(!compact)return; compact=false; track.classList.remove('compact');
+  }
+  function loop(){
+    if(!running)return; requestAnimationFrame(loop);
+    tp=progress(); if(tp>.9)seen=true; p+=reduce?(tp-p):(tp-p)*.14; if(Math.abs(tp-p)<.0001)p=tp; render();
+  }
+  new IntersectionObserver(es=>{const on=es[0].isIntersecting;if(on&&!running){running=true;requestAnimationFrame(loop)}else if(!on){running=false;fold()}},{rootMargin:'100px 0px'}).observe(track);
+  new ResizeObserver(measure).observe(stage);
+  const goTo=i=>{unfold();const r=track.getBoundingClientRect();scrollTo({top:scrollY+r.top+HOLD[i]*(r.height-vh),behavior:reduce?'auto':'smooth'})};
+  views.forEach(v=>v.addEventListener('click',()=>goTo(+v.dataset.arch)));
+  navs.forEach(b=>b.addEventListener('click',()=>goTo(+b.dataset.go)));
+  // sideways moves walk between arches: trackpad swipes, touch swipes and the arrow keys
+  const inView=()=>{const r=track.getBoundingClientRect();return r.top<=1&&r.bottom>=vh-1};
+  let lock=0;
+  function step(dir){
+    if(compact)return;
+    const now=performance.now(); if(now<lock)return; lock=now+750;
+    const q=progress(); let i;
+    if(q<HOLD[0]-.11)i=dir>0?0:-1; else if(q>HOLD[2]+.11)i=dir<0?2:-1; else i=nearest(q)+dir;
+    if(i>=0&&i<3)goTo(i);
+  }
+  stage.addEventListener('wheel',e=>{
+    if(Math.abs(e.deltaX)<=Math.abs(e.deltaY)*1.2)return;
+    e.preventDefault(); if(Math.abs(e.deltaX)>12)step(Math.sign(e.deltaX));
+  },{passive:false});
+  let sx=0,sy=0;
+  stage.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+  stage.addEventListener('touchend',e=>{const t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.4)step(dx<0?1:-1)},{passive:true});
+  addEventListener('keydown',e=>{
+    if((e.key!=='ArrowRight'&&e.key!=='ArrowLeft')||!inView()||/input|textarea|select/i.test(e.target.tagName))return;
+    e.preventDefault(); step(e.key==='ArrowRight'?1:-1);
+  });
+  measure();
+})();
+
+</script>
+
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
+<script type="module">
+import * as THREE from 'three';
+
+/* The hero: a word set in a plain default font, and a small dot that hops across it.
+   Each letter the dot lands on is redrawn in Loggia's typeface. In LOGGIA the dot drops
+   into the gap and stretches up into the I; on a visitor's name it ends as the full stop.
+   Once the word is done, the dot notices the visitor: rest the pointer and it comes over. */
+const GLYPHS={"serif":{"A":{"d":"M0.215 0.321 0.23 0.344H0.436L0.443 0.321ZM0.704 0.012Q0.709 0.012 0.709 0.006Q0.709 0 0.704 0Q0.675 0 0.6445 0.002Q0.614 0.004 0.585 0.004Q0.553 0.004 0.5295 0.002Q0.506 0 0.477 0Q0.473 0 0.473 0.006Q0.473 0.012 0.477 0.012Q0.526 0.012 0.537 0.0275Q0.548 0.043 0.526 0.089L0.311 0.536L0.343 0.584L0.148 0.132Q0.122 0.071 0.145 0.0415Q0.168 0.012 0.231 0.012Q0.236 0.012 0.236 0.006Q0.236 0 0.231 0Q0.201 0 0.176 0.002Q0.151 0.004 0.113 0.004Q0.076 0.004 0.0535 0.002Q0.031 0 -0.001 0Q-0.005 0 -0.005 0.006Q-0.005 0.012 -0.001 0.012Q0.026 0.012 0.046 0.0225Q0.066 0.033 0.0845 0.061Q0.103 0.089 0.125 0.141L0.338 0.632Q0.339 0.635 0.345 0.6355Q0.351 0.636 0.352 0.632L0.592 0.137Q0.616 0.088 0.6335 0.0605Q0.651 0.033 0.668 0.0225Q0.685 0.012 0.704 0.012Z","w":0.706,"b":[-0.005,0.0,0.709,0.6356]},"B":{"d":"M0.302 0.34 0.313 0.353Q0.375 0.353 0.4215 0.331Q0.468 0.309 0.4935 0.271Q0.519 0.233 0.519 0.183Q0.519 0.13 0.4915 0.0875Q0.464 0.045 0.4165 0.0205Q0.369 -0.004 0.31 -0.004Q0.28 -0.004 0.239 -0.001Q0.198 0.002 0.164 0.002Q0.13 0.002 0.099 0.001Q0.068 0 0.043 0Q0.04 0 0.04 0.006Q0.04 0.012 0.043 0.012Q0.076 0.012 0.094 0.017Q0.112 0.022 0.1185 0.037Q0.125 0.052 0.125 0.081V0.544Q0.125 0.573 0.119 0.5875Q0.113 0.602 0.0955 0.6075Q0.078 0.613 0.044 0.613Q0.042 0.613 0.042 0.619Q0.042 0.625 0.044 0.625Q0.069 0.625 0.0995 0.6235Q0.13 0.622 0.164 0.622Q0.191 0.622 0.224 0.625Q0.257 0.628 0.283 0.628Q0.343 0.628 0.3815 0.6115Q0.42 0.595 0.439 0.5655Q0.458 0.536 0.458 0.497Q0.458 0.441 0.416 0.399Q0.374 0.357 0.302 0.34ZM0.264 0.611Q0.242 0.611 0.2285 0.6065Q0.215 0.602 0.2095 0.5875Q0.204 0.573 0.204 0.542V0.346L0.171 0.354Q0.203 0.352 0.224 0.3515Q0.245 0.351 0.248 0.351Q0.318 0.351 0.349 0.391Q0.38 0.431 0.38 0.489Q0.38 0.525 0.3675 0.5525Q0.355 0.58 0.33 0.5955Q0.305 0.611 0.264 0.611ZM0.294 0.016Q0.367 0.016 0.4005 0.0535Q0.434 0.091 0.434 0.159Q0.434 0.233 0.393 0.2805Q0.352 0.328 0.273 0.328Q0.253 0.329 0.227 0.328Q0.201 0.327 0.174 0.323L0.204 0.334V0.081Q0.204 0.058 0.2105 0.0435Q0.217 0.029 0.2365 0.0225Q0.256 0.016 0.294 0.016ZM0.171 0.354Z","w":0.57,"b":[0.04,-0.004,0.519,0.628]},"C":{"d":"M0.417 0.636Q0.461 0.636 0.5105 0.6275Q0.56 0.619 0.59 0.604Q0.598 0.599 0.601 0.595Q0.604 0.591 0.605 0.58L0.616 0.46Q0.616 0.457 0.611 0.456Q0.606 0.455 0.605 0.459Q0.579 0.538 0.5195 0.5755Q0.46 0.613 0.378 0.613Q0.304 0.613 0.2505 0.5795Q0.197 0.546 0.1685 0.4855Q0.14 0.425 0.14 0.344Q0.14 0.274 0.1605 0.212Q0.181 0.15 0.218 0.1035Q0.255 0.057 0.3035 0.0305Q0.352 0.004 0.408 0.004Q0.476 0.004 0.529 0.044Q0.582 0.084 0.614 0.168Q0.615 0.172 0.6205 0.171Q0.626 0.17 0.626 0.167L0.612 0.047Q0.61 0.035 0.6075 0.0315Q0.605 0.028 0.596 0.024Q0.548 0.005 0.501 -0.0035Q0.454 -0.012 0.408 -0.012Q0.312 -0.012 0.2435 0.0175Q0.175 0.047 0.132 0.0955Q0.089 0.144 0.069 0.202Q0.049 0.26 0.049 0.317Q0.049 0.39 0.079 0.448Q0.109 0.506 0.161 0.548Q0.213 0.59 0.279 0.613Q0.345 0.636 0.417 0.636Z","w":0.669,"b":[0.049,-0.012,0.626,0.636]},"D":{"d":"M0.31 -0.004Q0.28 -0.004 0.236 -0.001Q0.192 0.002 0.155 0.002Q0.121 0.002 0.0895 0.001Q0.058 0 0.033 0Q0.031 0 0.031 0.006Q0.031 0.012 0.033 0.012Q0.068 0.012 0.086 0.017Q0.104 0.022 0.11 0.037Q0.116 0.052 0.116 0.081V0.544Q0.116 0.573 0.11 0.5875Q0.104 0.602 0.0865 0.6075Q0.069 0.613 0.035 0.613Q0.032 0.613 0.032 0.619Q0.032 0.625 0.035 0.625Q0.06 0.625 0.0905 0.6235Q0.121 0.622 0.155 0.622Q0.189 0.622 0.2285 0.6245Q0.268 0.627 0.296 0.627Q0.402 0.627 0.4805 0.587Q0.559 0.547 0.603 0.478Q0.647 0.409 0.647 0.323Q0.647 0.248 0.6205 0.1875Q0.594 0.127 0.547 0.0845Q0.5 0.042 0.439 0.019Q0.378 -0.004 0.31 -0.004ZM0.3 0.014Q0.375 0.014 0.4325 0.047Q0.49 0.08 0.523 0.1445Q0.556 0.209 0.556 0.301Q0.556 0.388 0.525 0.4575Q0.494 0.527 0.4385 0.5685Q0.383 0.61 0.306 0.61Q0.246 0.61 0.2205 0.598Q0.195 0.586 0.195 0.542V0.092Q0.195 0.052 0.215 0.033Q0.235 0.014 0.3 0.014Z","w":0.696,"b":[0.031,-0.004,0.647,0.627]},"E":{"d":"M0.469 0H0.043Q0.04 0 0.04 0.006Q0.04 0.012 0.043 0.012Q0.077 0.012 0.0945 0.017Q0.112 0.022 0.118 0.037Q0.124 0.052 0.124 0.081V0.544Q0.124 0.573 0.118 0.5875Q0.112 0.602 0.0945 0.6075Q0.077 0.613 0.043 0.613Q0.04 0.613 0.04 0.619Q0.04 0.625 0.043 0.625H0.451Q0.461 0.625 0.461 0.616L0.463 0.49Q0.463 0.487 0.4575 0.4865Q0.452 0.486 0.451 0.489Q0.444 0.544 0.412 0.5725Q0.38 0.601 0.328 0.601H0.277Q0.247 0.601 0.231 0.596Q0.215 0.591 0.209 0.5775Q0.203 0.564 0.203 0.54V0.085Q0.203 0.061 0.2085 0.0475Q0.214 0.034 0.229 0.0285Q0.244 0.023 0.271 0.023H0.337Q0.394 0.023 0.431 0.0565Q0.468 0.09 0.482 0.152Q0.482 0.155 0.488 0.154Q0.494 0.153 0.494 0.15Q0.49 0.123 0.487 0.085Q0.484 0.047 0.484 0.015Q0.484 0 0.469 0ZM0.413 0.23Q0.413 0.273 0.3885 0.2935Q0.364 0.314 0.31 0.314H0.165V0.337H0.313Q0.364 0.337 0.388 0.3545Q0.412 0.372 0.412 0.409Q0.412 0.411 0.4175 0.411Q0.423 0.411 0.423 0.409Q0.423 0.378 0.4225 0.361Q0.422 0.344 0.422 0.325Q0.422 0.302 0.4235 0.279Q0.425 0.256 0.425 0.23Q0.425 0.228 0.419 0.228Q0.413 0.228 0.413 0.23Z","w":0.542,"b":[0.04,0.0,0.494,0.625]},"F":{"d":"M0.039 0Q0.037 0 0.037 0.006Q0.037 0.012 0.039 0.012Q0.076 0.012 0.0935 0.017Q0.111 0.022 0.1175 0.037Q0.124 0.052 0.124 0.081V0.544Q0.124 0.573 0.118 0.5875Q0.112 0.602 0.0945 0.6075Q0.077 0.613 0.043 0.613Q0.04 0.613 0.04 0.619Q0.04 0.625 0.043 0.625H0.451Q0.461 0.625 0.461 0.616L0.463 0.49Q0.463 0.487 0.4575 0.4865Q0.452 0.486 0.451 0.489Q0.444 0.544 0.412 0.5725Q0.38 0.601 0.328 0.601H0.277Q0.233 0.601 0.218 0.589Q0.203 0.577 0.203 0.543V0.085Q0.203 0.055 0.211 0.0395Q0.219 0.024 0.2445 0.018Q0.27 0.012 0.32 0.012Q0.322 0.012 0.322 0.006Q0.322 0 0.32 0Q0.287 0 0.2485 0.001Q0.21 0.002 0.162 0.002Q0.128 0.002 0.096 0.001Q0.064 0 0.039 0ZM0.401 0.218Q0.401 0.261 0.375 0.2815Q0.349 0.302 0.292 0.302H0.165V0.325H0.295Q0.35 0.325 0.375 0.343Q0.4 0.361 0.4 0.397Q0.4 0.399 0.406 0.399Q0.412 0.399 0.412 0.397Q0.412 0.366 0.4115 0.349Q0.411 0.332 0.411 0.313Q0.411 0.29 0.412 0.267Q0.413 0.244 0.413 0.218Q0.413 0.216 0.407 0.216Q0.401 0.216 0.401 0.218Z","w":0.513,"b":[0.037,0.0,0.463,0.625]},"G":{"d":"M0.406 -0.012Q0.294 -0.012 0.214 0.0305Q0.134 0.073 0.0915 0.145Q0.049 0.217 0.049 0.305Q0.049 0.379 0.0775 0.4395Q0.106 0.5 0.1575 0.544Q0.209 0.588 0.278 0.612Q0.347 0.636 0.429 0.636Q0.476 0.636 0.522 0.6275Q0.568 0.619 0.597 0.603Q0.606 0.598 0.6075 0.5935Q0.609 0.589 0.61 0.58L0.623 0.459Q0.623 0.457 0.6175 0.456Q0.612 0.455 0.611 0.459Q0.585 0.532 0.5265 0.572Q0.468 0.612 0.384 0.612Q0.265 0.612 0.2015 0.539Q0.138 0.466 0.138 0.342Q0.138 0.242 0.176 0.1665Q0.214 0.091 0.2805 0.048Q0.347 0.005 0.431 0.005Q0.476 0.005 0.503 0.014Q0.53 0.023 0.5425 0.049Q0.555 0.075 0.555 0.126Q0.555 0.174 0.549 0.1965Q0.543 0.219 0.52 0.226Q0.497 0.233 0.446 0.233Q0.44 0.233 0.44 0.241Q0.44 0.249 0.445 0.249Q0.51 0.245 0.5635 0.2445Q0.617 0.244 0.675 0.247Q0.68 0.247 0.68 0.24Q0.68 0.233 0.675 0.233Q0.654 0.234 0.6445 0.2265Q0.635 0.219 0.6325 0.194Q0.63 0.169 0.63 0.116Q0.63 0.083 0.632 0.067Q0.634 0.051 0.6355 0.0435Q0.637 0.036 0.637 0.028Q0.637 0.022 0.6345 0.02Q0.632 0.018 0.625 0.016Q0.573 0.004 0.516 -0.004Q0.459 -0.012 0.406 -0.012Z","w":0.716,"b":[0.049,-0.012,0.68,0.636]},"H":{"d":"M0.562 0.542Q0.562 0.571 0.5565 0.586Q0.551 0.601 0.5325 0.607Q0.514 0.613 0.476 0.613Q0.473 0.613 0.473 0.619Q0.473 0.625 0.476 0.625Q0.5 0.625 0.5315 0.6235Q0.563 0.622 0.602 0.622Q0.636 0.622 0.6685 0.6235Q0.701 0.625 0.725 0.625Q0.728 0.625 0.728 0.619Q0.728 0.613 0.725 0.613Q0.69 0.613 0.6715 0.6075Q0.653 0.602 0.647 0.5875Q0.641 0.573 0.641 0.544V0.081Q0.641 0.052 0.647 0.037Q0.653 0.022 0.6715 0.017Q0.69 0.012 0.725 0.012Q0.728 0.012 0.728 0.006Q0.728 0 0.725 0Q0.701 0 0.6685 0.001Q0.636 0.002 0.602 0.002Q0.563 0.002 0.5315 0.001Q0.5 0 0.476 0Q0.473 0 0.473 0.006Q0.473 0.012 0.476 0.012Q0.514 0.012 0.5325 0.017Q0.551 0.022 0.5565 0.037Q0.562 0.052 0.562 0.081ZM0.155 0.314V0.337H0.597V0.314ZM0.118 0.081V0.544Q0.118 0.573 0.112 0.5875Q0.106 0.602 0.088 0.6075Q0.07 0.613 0.035 0.613Q0.032 0.613 0.032 0.619Q0.032 0.625 0.035 0.625Q0.06 0.625 0.091 0.6235Q0.122 0.622 0.156 0.622Q0.196 0.622 0.2275 0.6235Q0.259 0.625 0.284 0.625Q0.286 0.625 0.286 0.619Q0.286 0.613 0.284 0.613Q0.247 0.613 0.2285 0.607Q0.21 0.601 0.2035 0.586Q0.197 0.571 0.197 0.542V0.081Q0.197 0.052 0.203 0.037Q0.209 0.022 0.228 0.017Q0.247 0.012 0.284 0.012Q0.286 0.012 0.286 0.006Q0.286 0 0.284 0Q0.258 0 0.227 0.001Q0.196 0.002 0.156 0.002Q0.122 0.002 0.09 0.001Q0.058 0 0.033 0Q0.031 0 0.031 0.006Q0.031 0.012 0.033 0.012Q0.069 0.012 0.0875 0.017Q0.106 0.022 0.112 0.037Q0.118 0.052 0.118 0.081Z","w":0.761,"b":[0.031,0.0,0.728,0.625]},"I":{"d":"M0.208 0.081Q0.208 0.052 0.2135 0.037Q0.219 0.022 0.2365 0.017Q0.254 0.012 0.289 0.012Q0.291 0.012 0.291 0.006Q0.291 0 0.289 0Q0.264 0 0.2335 0.001Q0.203 0.002 0.167 0.002Q0.132 0.002 0.101 0.001Q0.07 0 0.045 0Q0.043 0 0.043 0.006Q0.043 0.012 0.045 0.012Q0.08 0.012 0.098 0.017Q0.116 0.022 0.122 0.037Q0.128 0.052 0.128 0.081V0.544Q0.128 0.573 0.122 0.5875Q0.116 0.602 0.098 0.6075Q0.08 0.613 0.045 0.613Q0.043 0.613 0.043 0.619Q0.043 0.625 0.045 0.625Q0.07 0.625 0.101 0.6235Q0.132 0.622 0.167 0.622Q0.203 0.622 0.234 0.6235Q0.265 0.625 0.289 0.625Q0.291 0.625 0.291 0.619Q0.291 0.613 0.289 0.613Q0.254 0.613 0.237 0.607Q0.22 0.601 0.214 0.586Q0.208 0.571 0.208 0.542Z","w":0.335,"b":[0.043,0.0,0.291,0.625]},"J":{"d":"M0.285 0.625Q0.288 0.625 0.288 0.619Q0.288 0.613 0.285 0.613Q0.256 0.613 0.241 0.607Q0.226 0.601 0.221 0.586Q0.216 0.571 0.216 0.542V-0.02Q0.216 -0.121 0.168 -0.182Q0.12 -0.243 0.028 -0.243Q-0.007 -0.243 -0.028 -0.23Q-0.049 -0.217 -0.049 -0.195Q-0.049 -0.179 -0.0395 -0.1675Q-0.03 -0.156 -0.01 -0.156Q0.01 -0.156 0.0205 -0.166Q0.031 -0.176 0.038 -0.1895Q0.045 -0.203 0.0525 -0.213Q0.06 -0.223 0.074 -0.223Q0.104 -0.223 0.12 -0.1845Q0.136 -0.146 0.136 -0.057V0.544Q0.136 0.573 0.129 0.5875Q0.122 0.602 0.102 0.6075Q0.082 0.613 0.042 0.613Q0.04 0.613 0.04 0.619Q0.04 0.625 0.042 0.625Q0.072 0.625 0.1055 0.6235Q0.139 0.622 0.175 0.622Q0.208 0.622 0.2355 0.6235Q0.263 0.625 0.285 0.625Z","w":0.327,"b":[-0.049,-0.243,0.288,0.625]},"K":{"d":"M0.116 0.081V0.544Q0.116 0.573 0.11 0.5875Q0.104 0.602 0.0865 0.6075Q0.069 0.613 0.035 0.613Q0.032 0.613 0.032 0.619Q0.032 0.625 0.035 0.625Q0.06 0.625 0.0905 0.6235Q0.121 0.622 0.155 0.622Q0.191 0.622 0.2215 0.6235Q0.252 0.625 0.276 0.625Q0.278 0.625 0.278 0.619Q0.278 0.613 0.276 0.613Q0.241 0.613 0.224 0.607Q0.207 0.601 0.201 0.586Q0.195 0.571 0.195 0.542V0.081Q0.195 0.052 0.2005 0.037Q0.206 0.022 0.2235 0.017Q0.241 0.012 0.276 0.012Q0.279 0.012 0.279 0.006Q0.279 0 0.276 0Q0.251 0 0.221 0.001Q0.191 0.002 0.155 0.002Q0.121 0.002 0.0895 0.001Q0.058 0 0.033 0Q0.031 0 0.031 0.006Q0.031 0.012 0.033 0.012Q0.068 0.012 0.086 0.017Q0.104 0.022 0.11 0.037Q0.116 0.052 0.116 0.081ZM0.37 0.145 0.218 0.34 0.278 0.392 0.426 0.199Q0.469 0.142 0.499 0.106Q0.529 0.07 0.5495 0.0505Q0.57 0.031 0.5855 0.0225Q0.601 0.014 0.6155 0.013Q0.63 0.012 0.648 0.012Q0.651 0.012 0.651 0.006Q0.651 0 0.648 0Q0.604 0 0.577 0Q0.55 0 0.536 0Q0.514 0 0.502 -0.0005Q0.49 -0.001 0.482 0.004Q0.474 0.009 0.462 0.0235Q0.45 0.038 0.429 0.067Q0.408 0.096 0.37 0.145ZM0.143 0.278 0.4 0.537Q0.438 0.575 0.431 0.594Q0.424 0.613 0.373 0.613Q0.37 0.613 0.37 0.619Q0.37 0.625 0.373 0.625Q0.398 0.625 0.424 0.6235Q0.45 0.622 0.493 0.622Q0.535 0.622 0.5595 0.6235Q0.584 0.625 0.606 0.625Q0.609 0.625 0.609 0.619Q0.609 0.613 0.606 0.613Q0.567 0.613 0.5175 0.5935Q0.468 0.574 0.425 0.531L0.168 0.277Z","w":0.652,"b":[0.031,-0.0005,0.651,0.625]},"L":{"d":"M0.194 0.543V0.085Q0.194 0.059 0.1995 0.0455Q0.205 0.032 0.2205 0.0275Q0.236 0.023 0.267 0.023H0.352Q0.417 0.023 0.458 0.061Q0.499 0.099 0.512 0.162Q0.512 0.165 0.5175 0.1645Q0.523 0.164 0.523 0.161Q0.52 0.132 0.517 0.091Q0.514 0.05 0.514 0.015Q0.514 0 0.499 0H0.033Q0.031 0 0.031 0.006Q0.031 0.012 0.033 0.012Q0.068 0.012 0.0855 0.017Q0.103 0.022 0.109 0.037Q0.115 0.052 0.115 0.081V0.544Q0.115 0.573 0.109 0.5875Q0.103 0.602 0.0855 0.6075Q0.068 0.613 0.033 0.613Q0.031 0.613 0.031 0.619Q0.031 0.625 0.033 0.625Q0.057 0.625 0.0885 0.6235Q0.12 0.622 0.154 0.622Q0.19 0.622 0.2205 0.6235Q0.251 0.625 0.275 0.625Q0.277 0.625 0.277 0.619Q0.277 0.613 0.275 0.613Q0.24 0.613 0.223 0.6075Q0.206 0.602 0.2 0.587Q0.194 0.572 0.194 0.543Z","w":0.537,"b":[0.031,0.0,0.523,0.625]},"M":{"d":"M0.119 0.114 0.129 0.602 0.154 0.6 0.144 0.114Q0.143 0.062 0.1625 0.037Q0.182 0.012 0.228 0.012Q0.231 0.012 0.231 0.006Q0.231 0 0.228 0Q0.206 0 0.183 0.001Q0.16 0.002 0.131 0.002Q0.104 0.002 0.08 0.001Q0.056 0 0.035 0Q0.033 0 0.033 0.006Q0.033 0.012 0.035 0.012Q0.077 0.012 0.0975 0.037Q0.118 0.062 0.119 0.114ZM0.819 0.012Q0.821 0.012 0.821 0.006Q0.821 0 0.819 0Q0.794 0 0.763 0.001Q0.732 0.002 0.697 0.002Q0.664 0.002 0.635 0.001Q0.606 0 0.583 0Q0.58 0 0.58 0.006Q0.58 0.012 0.583 0.012Q0.632 0.012 0.646 0.025Q0.66 0.038 0.657 0.081L0.637 0.552L0.676 0.608L0.417 0.007Q0.416 0.003 0.4095 0.003Q0.403 0.003 0.401 0.007L0.14 0.542Q0.105 0.613 0.042 0.613Q0.04 0.613 0.04 0.619Q0.04 0.625 0.042 0.625Q0.06 0.625 0.0795 0.624Q0.099 0.623 0.113 0.623Q0.132 0.623 0.1475 0.624Q0.163 0.625 0.171 0.625Q0.185 0.625 0.193 0.6155Q0.201 0.606 0.217 0.573L0.444 0.112L0.407 0.048L0.648 0.6Q0.653 0.612 0.6605 0.6185Q0.668 0.625 0.678 0.625Q0.685 0.625 0.6955 0.624Q0.706 0.623 0.72 0.623Q0.748 0.623 0.767 0.624Q0.786 0.625 0.806 0.625Q0.808 0.625 0.808 0.619Q0.808 0.613 0.806 0.613Q0.758 0.613 0.736 0.5975Q0.714 0.582 0.715 0.541L0.736 0.081Q0.738 0.052 0.744 0.037Q0.75 0.022 0.767 0.017Q0.784 0.012 0.819 0.012Z","w":0.842,"b":[0.033,0.0,0.821,0.625]},"N":{"d":"M0.122 0.114V0.602L0.148 0.6V0.114Q0.148 0.062 0.167 0.037Q0.186 0.012 0.227 0.012Q0.229 0.012 0.229 0.006Q0.229 0 0.227 0Q0.206 0 0.1845 0.001Q0.163 0.002 0.136 0.002Q0.11 0.002 0.085 0.001Q0.06 0 0.038 0Q0.036 0 0.036 0.006Q0.036 0.012 0.038 0.012Q0.082 0.012 0.102 0.037Q0.122 0.062 0.122 0.114ZM0.628 -0.013Q0.628 -0.015 0.6235 -0.0155Q0.619 -0.016 0.617 -0.015L0.146 0.543Q0.111 0.584 0.0855 0.5985Q0.06 0.613 0.035 0.613Q0.033 0.613 0.033 0.619Q0.033 0.625 0.035 0.625Q0.054 0.625 0.073 0.624Q0.092 0.623 0.108 0.623Q0.132 0.623 0.152 0.624Q0.172 0.625 0.182 0.625Q0.195 0.625 0.201 0.6135Q0.207 0.602 0.23 0.573L0.62 0.103ZM0.628 0.51V-0.013L0.603 0.018V0.51Q0.603 0.562 0.5845 0.5875Q0.566 0.613 0.525 0.613Q0.523 0.613 0.523 0.619Q0.523 0.625 0.525 0.625Q0.546 0.625 0.568 0.6235Q0.59 0.622 0.616 0.622Q0.641 0.622 0.665 0.6235Q0.689 0.625 0.71 0.625Q0.712 0.625 0.712 0.619Q0.712 0.613 0.71 0.613Q0.668 0.613 0.648 0.5875Q0.628 0.562 0.628 0.51Z","w":0.73,"b":[0.033,-0.0157,0.712,0.625]},"O":{"d":"M0.366 -0.012Q0.294 -0.012 0.2355 0.0135Q0.177 0.039 0.1355 0.084Q0.094 0.129 0.0715 0.1875Q0.049 0.246 0.049 0.312Q0.049 0.393 0.0805 0.454Q0.112 0.515 0.164 0.5555Q0.216 0.596 0.278 0.616Q0.34 0.636 0.401 0.636Q0.475 0.636 0.5335 0.6095Q0.592 0.583 0.633 0.538Q0.674 0.493 0.6955 0.436Q0.717 0.379 0.717 0.319Q0.717 0.249 0.689 0.189Q0.661 0.129 0.6125 0.084Q0.564 0.039 0.5005 0.0135Q0.437 -0.012 0.366 -0.012ZM0.401 0.01Q0.464 0.01 0.5155 0.0425Q0.567 0.075 0.5965 0.1375Q0.626 0.2 0.626 0.291Q0.626 0.384 0.5935 0.4565Q0.561 0.529 0.5015 0.5705Q0.442 0.612 0.36 0.612Q0.255 0.612 0.1975 0.541Q0.14 0.47 0.14 0.347Q0.14 0.276 0.1585 0.2145Q0.177 0.153 0.212 0.107Q0.247 0.061 0.295 0.0355Q0.343 0.01 0.401 0.01Z","w":0.766,"b":[0.049,-0.012,0.717,0.636]},"P":{"d":"M0.2 0.085Q0.2 0.055 0.2075 0.0395Q0.215 0.024 0.239 0.018Q0.263 0.012 0.311 0.012Q0.314 0.012 0.314 0.006Q0.314 0 0.311 0Q0.279 0 0.2415 0.001Q0.204 0.002 0.16 0.002Q0.127 0.002 0.0955 0.001Q0.064 0 0.039 0Q0.037 0 0.037 0.006Q0.037 0.012 0.039 0.012Q0.074 0.012 0.0915 0.017Q0.109 0.022 0.1145 0.037Q0.12 0.052 0.12 0.081V0.544Q0.12 0.573 0.1145 0.5875Q0.109 0.602 0.0915 0.6075Q0.074 0.613 0.039 0.613Q0.037 0.613 0.037 0.619Q0.037 0.625 0.039 0.625Q0.064 0.625 0.095 0.6235Q0.126 0.622 0.159 0.622Q0.185 0.622 0.2225 0.625Q0.26 0.628 0.298 0.628Q0.356 0.628 0.4025 0.611Q0.449 0.594 0.477 0.558Q0.505 0.522 0.506 0.464Q0.506 0.412 0.487 0.374Q0.468 0.336 0.4355 0.311Q0.403 0.286 0.3635 0.274Q0.324 0.262 0.286 0.262Q0.274 0.262 0.2615 0.263Q0.249 0.264 0.238 0.267Q0.234 0.268 0.2355 0.2745Q0.237 0.281 0.24 0.28Q0.249 0.278 0.2585 0.277Q0.268 0.276 0.275 0.276Q0.313 0.276 0.345 0.294Q0.377 0.312 0.397 0.3495Q0.417 0.387 0.417 0.443Q0.417 0.497 0.3985 0.534Q0.38 0.571 0.347 0.591Q0.314 0.611 0.271 0.611Q0.243 0.611 0.2275 0.607Q0.212 0.603 0.206 0.588Q0.2 0.573 0.2 0.542Z","w":0.546,"b":[0.037,0.0,0.506,0.628]},"Q":{"d":"M0.472 0.009Q0.499 -0.043 0.539 -0.0835Q0.579 -0.124 0.624 -0.1465Q0.669 -0.169 0.709 -0.169Q0.719 -0.169 0.7285 -0.168Q0.738 -0.167 0.745 -0.166Q0.748 -0.165 0.7495 -0.17Q0.751 -0.175 0.749 -0.176Q0.728 -0.181 0.707 -0.1845Q0.686 -0.188 0.665 -0.188Q0.618 -0.188 0.5645 -0.1665Q0.511 -0.145 0.461 -0.1025Q0.411 -0.06 0.372 0.002ZM0.366 -0.012Q0.294 -0.012 0.2355 0.0135Q0.177 0.039 0.1355 0.084Q0.094 0.129 0.0715 0.1875Q0.049 0.246 0.049 0.312Q0.049 0.393 0.0805 0.454Q0.112 0.515 0.164 0.5555Q0.216 0.596 0.278 0.616Q0.34 0.636 0.401 0.636Q0.475 0.636 0.5335 0.6095Q0.592 0.583 0.633 0.538Q0.674 0.493 0.6955 0.436Q0.717 0.379 0.717 0.319Q0.717 0.249 0.689 0.189Q0.661 0.129 0.6125 0.084Q0.564 0.039 0.5005 0.0135Q0.437 -0.012 0.366 -0.012ZM0.401 0.01Q0.464 0.01 0.5155 0.0425Q0.567 0.075 0.5965 0.1375Q0.626 0.2 0.626 0.291Q0.626 0.384 0.5935 0.4565Q0.561 0.529 0.5015 0.5705Q0.442 0.612 0.36 0.612Q0.255 0.612 0.1975 0.541Q0.14 0.47 0.14 0.347Q0.14 0.276 0.1585 0.2145Q0.177 0.153 0.212 0.107Q0.247 0.061 0.295 0.0355Q0.343 0.01 0.401 0.01Z","w":0.766,"b":[0.049,-0.188,0.7501,0.636]},"R":{"d":"M0.546 0Q0.53 0 0.4935 0.04Q0.457 0.08 0.406 0.154Q0.355 0.228 0.291 0.33L0.358 0.352Q0.442 0.226 0.5005 0.1515Q0.559 0.077 0.604 0.0445Q0.649 0.012 0.69 0.012Q0.693 0.012 0.693 0.006Q0.693 0 0.69 0Q0.634 0 0.5985 0Q0.563 0 0.546 0ZM0.288 0.628Q0.374 0.628 0.4195 0.5945Q0.465 0.561 0.465 0.502Q0.465 0.465 0.4475 0.431Q0.43 0.397 0.4005 0.371Q0.371 0.345 0.3325 0.33Q0.294 0.315 0.253 0.315Q0.241 0.315 0.228 0.3155Q0.215 0.316 0.204 0.317V0.081Q0.204 0.052 0.2095 0.037Q0.215 0.022 0.2325 0.017Q0.25 0.012 0.285 0.012Q0.288 0.012 0.288 0.006Q0.288 0 0.285 0Q0.26 0 0.23 0.001Q0.2 0.002 0.164 0.002Q0.13 0.002 0.099 0.001Q0.068 0 0.043 0Q0.04 0 0.04 0.006Q0.04 0.012 0.043 0.012Q0.077 0.012 0.0945 0.017Q0.112 0.022 0.1185 0.037Q0.125 0.052 0.125 0.081V0.544Q0.125 0.573 0.119 0.5875Q0.113 0.602 0.096 0.6075Q0.079 0.613 0.044 0.613Q0.042 0.613 0.042 0.619Q0.042 0.625 0.044 0.625Q0.069 0.625 0.0995 0.6235Q0.13 0.622 0.164 0.622Q0.191 0.622 0.226 0.625Q0.261 0.628 0.288 0.628ZM0.382 0.466Q0.382 0.523 0.367 0.5545Q0.352 0.586 0.3265 0.5985Q0.301 0.611 0.269 0.611Q0.245 0.611 0.231 0.6065Q0.217 0.602 0.2105 0.587Q0.204 0.572 0.204 0.542V0.343Q0.218 0.342 0.2345 0.3405Q0.251 0.339 0.263 0.339Q0.327 0.339 0.3545 0.3675Q0.382 0.396 0.382 0.466Z","w":0.681,"b":[0.04,0.0,0.693,0.628]},"S":{"d":"M0.154 0.513Q0.154 0.473 0.174 0.444Q0.194 0.415 0.226 0.3925Q0.258 0.37 0.294 0.348Q0.331 0.326 0.3655 0.301Q0.4 0.276 0.4225 0.2425Q0.445 0.209 0.445 0.161Q0.445 0.112 0.4195 0.073Q0.394 0.034 0.3475 0.011Q0.301 -0.012 0.236 -0.012Q0.21 -0.012 0.1835 -0.0075Q0.157 -0.003 0.133 0.005Q0.109 0.013 0.089 0.025Q0.085 0.028 0.0825 0.032Q0.08 0.036 0.08 0.044L0.07 0.187Q0.069 0.192 0.0745 0.1925Q0.08 0.193 0.081 0.189Q0.09 0.158 0.105 0.126Q0.12 0.094 0.141 0.0675Q0.162 0.041 0.1915 0.024Q0.221 0.007 0.26 0.007Q0.287 0.007 0.3125 0.017Q0.338 0.027 0.354 0.0505Q0.37 0.074 0.37 0.116Q0.37 0.164 0.349 0.197Q0.328 0.23 0.295 0.254Q0.262 0.278 0.225 0.3Q0.19 0.322 0.1575 0.346Q0.125 0.37 0.105 0.4015Q0.085 0.433 0.085 0.478Q0.085 0.532 0.1135 0.567Q0.142 0.602 0.1865 0.619Q0.231 0.636 0.278 0.636Q0.309 0.636 0.341 0.63Q0.373 0.624 0.399 0.613Q0.408 0.609 0.411 0.6045Q0.414 0.6 0.414 0.595L0.419 0.47Q0.419 0.467 0.414 0.466Q0.409 0.465 0.407 0.469Q0.404 0.486 0.394 0.5115Q0.384 0.537 0.367 0.5615Q0.35 0.586 0.3235 0.6025Q0.297 0.619 0.259 0.619Q0.224 0.619 0.201 0.6045Q0.178 0.59 0.166 0.5665Q0.154 0.543 0.154 0.513Z","w":0.499,"b":[0.0698,-0.012,0.445,0.636]},"T":{"d":"M0.199 0.605Q0.137 0.605 0.102 0.5705Q0.067 0.536 0.05 0.46Q0.049 0.458 0.0435 0.458Q0.038 0.458 0.038 0.461Q0.04 0.474 0.0425 0.498Q0.045 0.522 0.047 0.55Q0.049 0.578 0.0505 0.604Q0.052 0.63 0.052 0.647Q0.052 0.652 0.058 0.652Q0.064 0.652 0.064 0.647Q0.064 0.637 0.074 0.6325Q0.084 0.628 0.097 0.6265Q0.11 0.625 0.119 0.625Q0.205 0.622 0.32 0.622Q0.39 0.622 0.432 0.6235Q0.474 0.625 0.513 0.625Q0.547 0.625 0.5655 0.6295Q0.584 0.634 0.589 0.65Q0.59 0.654 0.5955 0.654Q0.601 0.654 0.601 0.65Q0.599 0.635 0.5975 0.608Q0.596 0.581 0.5945 0.552Q0.593 0.523 0.592 0.498Q0.591 0.473 0.591 0.461Q0.591 0.458 0.5855 0.458Q0.58 0.458 0.58 0.461Q0.573 0.539 0.54 0.572Q0.507 0.605 0.442 0.605Q0.407 0.605 0.3895 0.6005Q0.372 0.596 0.3665 0.583Q0.361 0.57 0.361 0.542V0.081Q0.361 0.052 0.3675 0.037Q0.374 0.022 0.3935 0.017Q0.413 0.012 0.454 0.012Q0.456 0.012 0.456 0.006Q0.456 0 0.454 0Q0.427 0 0.3935 0.001Q0.36 0.002 0.32 0.002Q0.282 0.002 0.2485 0.001Q0.215 0 0.187 0Q0.184 0 0.184 0.006Q0.184 0.012 0.187 0.012Q0.226 0.012 0.2465 0.017Q0.267 0.022 0.274 0.037Q0.281 0.052 0.281 0.081V0.544Q0.281 0.571 0.275 0.5845Q0.269 0.598 0.251 0.6015Q0.233 0.605 0.199 0.605Z","w":0.637,"b":[0.038,0.0,0.601,0.654]},"U":{"d":"M0.572 0.51Q0.572 0.56 0.5495 0.5865Q0.527 0.613 0.483 0.613Q0.48 0.613 0.48 0.619Q0.48 0.625 0.483 0.625Q0.506 0.625 0.531 0.6235Q0.556 0.622 0.585 0.622Q0.61 0.622 0.6345 0.6235Q0.659 0.625 0.68 0.625Q0.682 0.625 0.682 0.619Q0.682 0.613 0.68 0.613Q0.64 0.613 0.6195 0.5865Q0.599 0.56 0.599 0.51V0.227Q0.599 0.152 0.569 0.098Q0.539 0.044 0.485 0.0155Q0.431 -0.013 0.359 -0.013Q0.285 -0.013 0.229 0.0155Q0.173 0.044 0.142 0.097Q0.111 0.15 0.111 0.223V0.544Q0.111 0.573 0.105 0.5875Q0.099 0.602 0.0815 0.6075Q0.064 0.613 0.03 0.613Q0.027 0.613 0.027 0.619Q0.027 0.625 0.03 0.625Q0.055 0.625 0.085 0.6235Q0.115 0.622 0.15 0.622Q0.186 0.622 0.2165 0.6235Q0.247 0.625 0.27 0.625Q0.273 0.625 0.273 0.619Q0.273 0.613 0.27 0.613Q0.236 0.613 0.2185 0.607Q0.201 0.601 0.1955 0.586Q0.19 0.571 0.19 0.542V0.258Q0.19 0.138 0.242 0.0785Q0.294 0.019 0.386 0.019Q0.474 0.019 0.523 0.0735Q0.572 0.128 0.572 0.226Z","w":0.7,"b":[0.027,-0.013,0.682,0.625]},"V":{"d":"M0.668 0.625Q0.671 0.625 0.671 0.619Q0.671 0.613 0.668 0.613Q0.634 0.613 0.6065 0.5915Q0.579 0.57 0.56 0.522L0.356 0.001Q0.355 -0.003 0.3455 -0.003Q0.336 -0.003 0.334 0.001L0.083 0.542Q0.066 0.579 0.0475 0.596Q0.029 0.613 0.001 0.613Q-0.002 0.613 -0.002 0.619Q-0.002 0.625 0.001 0.625Q0.014 0.625 0.025 0.624Q0.036 0.623 0.049 0.6225Q0.062 0.622 0.081 0.622Q0.119 0.622 0.146 0.6225Q0.173 0.623 0.192 0.624Q0.211 0.625 0.226 0.625Q0.229 0.625 0.229 0.619Q0.229 0.613 0.226 0.613Q0.186 0.613 0.171 0.5955Q0.156 0.578 0.174 0.539L0.379 0.093L0.343 0.035L0.536 0.527Q0.552 0.568 0.5365 0.5905Q0.521 0.613 0.468 0.613Q0.465 0.613 0.465 0.619Q0.465 0.625 0.468 0.625Q0.494 0.625 0.5175 0.6235Q0.541 0.622 0.579 0.622Q0.608 0.622 0.6255 0.6235Q0.643 0.625 0.668 0.625Z","w":0.664,"b":[-0.002,-0.003,0.671,0.625]},"W":{"d":"M0.483 0.328 0.356 0.001Q0.355 -0.003 0.3455 -0.003Q0.336 -0.003 0.334 0.001L0.083 0.542Q0.071 0.57 0.0595 0.585Q0.048 0.6 0.0345 0.6065Q0.021 0.613 0.001 0.613Q-0.002 0.613 -0.002 0.619Q-0.002 0.625 0.001 0.625Q0.014 0.625 0.025 0.624Q0.036 0.623 0.049 0.6225Q0.062 0.622 0.081 0.622Q0.114 0.622 0.137 0.6225Q0.16 0.623 0.177 0.624Q0.194 0.625 0.208 0.625Q0.211 0.625 0.211 0.619Q0.211 0.613 0.208 0.613Q0.168 0.613 0.1575 0.5985Q0.147 0.584 0.167 0.539L0.379 0.086L0.341 0.031L0.467 0.351ZM0.929 0.625Q0.932 0.625 0.932 0.619Q0.932 0.613 0.929 0.613Q0.895 0.613 0.8675 0.5915Q0.84 0.57 0.821 0.522L0.617 0.001Q0.616 -0.003 0.6065 -0.003Q0.597 -0.003 0.595 0.001L0.344 0.542Q0.328 0.578 0.3105 0.5955Q0.293 0.613 0.267 0.613Q0.264 0.613 0.264 0.619Q0.264 0.625 0.267 0.625Q0.28 0.625 0.2905 0.624Q0.301 0.623 0.313 0.6225Q0.325 0.622 0.342 0.622Q0.382 0.622 0.4025 0.6235Q0.423 0.625 0.439 0.625Q0.442 0.625 0.442 0.619Q0.442 0.613 0.439 0.613Q0.409 0.613 0.4075 0.6Q0.406 0.587 0.428 0.539L0.64 0.086L0.602 0.031L0.795 0.522Q0.812 0.566 0.7975 0.5895Q0.783 0.613 0.735 0.613Q0.732 0.613 0.732 0.619Q0.732 0.625 0.735 0.625Q0.759 0.625 0.782 0.6235Q0.805 0.622 0.84 0.622Q0.869 0.622 0.8865 0.6235Q0.904 0.625 0.929 0.625ZM0.472 0.351 0.541 0.527Q0.559 0.572 0.554 0.5925Q0.549 0.613 0.518 0.613Q0.516 0.613 0.516 0.619Q0.516 0.625 0.518 0.625Q0.529 0.625 0.5355 0.624Q0.542 0.623 0.552 0.6225Q0.562 0.622 0.584 0.622Q0.61 0.622 0.627 0.6235Q0.644 0.625 0.668 0.625Q0.67 0.625 0.67 0.619Q0.67 0.613 0.668 0.613Q0.635 0.613 0.61 0.593Q0.585 0.573 0.565 0.522L0.488 0.328Z","w":0.925,"b":[-0.002,-0.003,0.932,0.625]},"X":{"d":"M0.41 0Q0.408 0 0.408 0.006Q0.408 0.012 0.41 0.012Q0.441 0.012 0.4515 0.02Q0.462 0.028 0.447 0.051L0.128 0.538Q0.101 0.579 0.0755 0.596Q0.05 0.613 0.018 0.613Q0.016 0.613 0.016 0.619Q0.016 0.625 0.018 0.625Q0.037 0.625 0.058 0.6235Q0.079 0.622 0.097 0.622Q0.138 0.622 0.173 0.6235Q0.208 0.625 0.234 0.625Q0.237 0.625 0.237 0.619Q0.237 0.613 0.234 0.613Q0.203 0.613 0.1925 0.605Q0.182 0.597 0.197 0.573L0.519 0.083Q0.545 0.044 0.572 0.028Q0.599 0.012 0.638 0.012Q0.64 0.012 0.64 0.006Q0.64 0 0.638 0Q0.617 0 0.592 0.001Q0.567 0.002 0.539 0.002Q0.498 0.002 0.4675 0.001Q0.437 0 0.41 0ZM0.013 0Q0.01 0 0.01 0.006Q0.01 0.012 0.013 0.012Q0.045 0.012 0.083 0.037Q0.121 0.062 0.16 0.116L0.302 0.31L0.316 0.299L0.185 0.114Q0.15 0.066 0.1575 0.039Q0.165 0.012 0.213 0.012Q0.216 0.012 0.216 0.006Q0.216 0 0.213 0Q0.186 0 0.161 0.001Q0.136 0.002 0.096 0.002Q0.069 0.002 0.053 0.001Q0.037 0 0.013 0ZM0.333 0.314 0.319 0.325 0.446 0.506Q0.482 0.557 0.4755 0.585Q0.469 0.613 0.422 0.613Q0.419 0.613 0.419 0.619Q0.419 0.625 0.422 0.625Q0.449 0.625 0.474 0.6235Q0.499 0.622 0.539 0.622Q0.566 0.622 0.582 0.6235Q0.598 0.625 0.621 0.625Q0.624 0.625 0.624 0.619Q0.624 0.613 0.621 0.613Q0.59 0.613 0.551 0.586Q0.512 0.559 0.471 0.503Z","w":0.65,"b":[0.01,0.0,0.64,0.625]},"Y":{"d":"M0.306 0.285 0.448 0.508Q0.478 0.558 0.47 0.5855Q0.462 0.613 0.417 0.613Q0.414 0.613 0.414 0.619Q0.414 0.625 0.417 0.625Q0.446 0.625 0.4715 0.6235Q0.497 0.622 0.539 0.622Q0.564 0.622 0.5795 0.6235Q0.595 0.625 0.617 0.625Q0.619 0.625 0.619 0.619Q0.619 0.613 0.617 0.613Q0.595 0.613 0.569 0.5995Q0.543 0.586 0.5185 0.5615Q0.494 0.537 0.473 0.503L0.325 0.269ZM0.281 0.272 0.11 0.528Q0.077 0.577 0.053 0.595Q0.029 0.613 0.001 0.613Q-0.002 0.613 -0.002 0.619Q-0.002 0.625 0.001 0.625Q0.017 0.625 0.035 0.6235Q0.053 0.622 0.069 0.622Q0.097 0.622 0.124 0.6225Q0.151 0.623 0.1755 0.624Q0.2 0.625 0.218 0.625Q0.22 0.625 0.22 0.619Q0.22 0.613 0.218 0.613Q0.182 0.613 0.1735 0.599Q0.165 0.585 0.182 0.561L0.344 0.318ZM0.269 0.31 0.349 0.319V0.081Q0.349 0.052 0.3545 0.037Q0.36 0.022 0.377 0.017Q0.394 0.012 0.429 0.012Q0.432 0.012 0.432 0.006Q0.432 0 0.429 0Q0.405 0 0.3745 0.001Q0.344 0.002 0.308 0.002Q0.274 0.002 0.2425 0.001Q0.211 0 0.187 0Q0.184 0 0.184 0.006Q0.184 0.012 0.187 0.012Q0.222 0.012 0.2395 0.017Q0.257 0.022 0.263 0.037Q0.269 0.052 0.269 0.081Z","w":0.612,"b":[-0.002,0.0,0.619,0.625]},"Z":{"d":"M0.057 0.013 0.438 0.6Q0.441 0.605 0.4405 0.6065Q0.44 0.608 0.433 0.608Q0.347 0.608 0.288 0.6065Q0.229 0.605 0.1915 0.599Q0.154 0.593 0.131 0.58Q0.108 0.567 0.0935 0.546Q0.079 0.525 0.066 0.491Q0.065 0.489 0.059 0.49Q0.053 0.491 0.054 0.494L0.094 0.655Q0.095 0.657 0.101 0.656Q0.107 0.655 0.106 0.653Q0.103 0.635 0.114 0.63Q0.125 0.625 0.163 0.625Q0.223 0.625 0.31 0.625Q0.397 0.625 0.528 0.625Q0.533 0.625 0.535 0.6205Q0.537 0.616 0.535 0.612L0.158 0.027Q0.154 0.022 0.155 0.0205Q0.156 0.019 0.163 0.019Q0.241 0.019 0.3025 0.019Q0.364 0.019 0.401 0.019Q0.444 0.019 0.475 0.033Q0.506 0.047 0.526 0.0745Q0.546 0.102 0.553 0.14Q0.554 0.143 0.559 0.143Q0.564 0.143 0.564 0.14L0.55 0.008Q0.55 0.005 0.548 0.0015Q0.546 -0.002 0.541 -0.002Q0.467 -0.001 0.3845 -0.0005Q0.302 0 0.2195 0Q0.137 0 0.062 0Q0.058 0 0.056 0.0045Q0.054 0.009 0.057 0.013Z","w":0.598,"b":[0.0539,-0.002,0.564,0.6563]}},"plain":{"A":{"d":"M0.1953 0.1929 0.1221 0H0.0098L0.2803 0.688H0.4077L0.6753 0H0.5645L0.4917 0.1929ZM0.3433 0.606Q0.3359 0.5811 0.3254 0.5496Q0.3149 0.5181 0.3071 0.4976L0.2246 0.2773H0.4624L0.3784 0.501Q0.3716 0.519 0.3623 0.5466Q0.353 0.5742 0.3433 0.606Z","w":0.6855,"b":[0.0098,0.0,0.6753,0.688]},"B":{"d":"M0.6353 0.1948Q0.6353 0.1021 0.5671 0.051Q0.499 0 0.3779 0H0.0771V0.688H0.3486Q0.4712 0.688 0.5332 0.6455Q0.5952 0.603 0.5952 0.519Q0.5952 0.459 0.5615 0.4177Q0.5278 0.3765 0.4644 0.3623Q0.5469 0.3525 0.5911 0.3083Q0.6353 0.2642 0.6353 0.1948ZM0.4844 0.5049Q0.4844 0.5576 0.4492 0.5801Q0.4141 0.6025 0.3462 0.6025H0.187V0.4004H0.3467Q0.417 0.4004 0.4507 0.4263Q0.4844 0.4521 0.4844 0.5049ZM0.5239 0.2031Q0.5239 0.3164 0.3638 0.3164H0.187V0.0854H0.3706Q0.4507 0.0854 0.4873 0.115Q0.5239 0.1445 0.5239 0.2031Z","w":0.6855,"b":[0.0771,0.0,0.6353,0.688]},"C":{"d":"M0.3896 0.0791Q0.5298 0.0791 0.5952 0.2183L0.6875 0.1768Q0.646 0.0845 0.5686 0.0374Q0.4912 -0.0098 0.3867 -0.0098Q0.2803 -0.0098 0.2043 0.0332Q0.1284 0.0762 0.0879 0.1565Q0.0474 0.2368 0.0474 0.3472Q0.0474 0.458 0.0872 0.5366Q0.127 0.6152 0.2024 0.6567Q0.2778 0.6982 0.3843 0.6982Q0.498 0.6982 0.5725 0.6533Q0.647 0.6084 0.6807 0.521L0.5791 0.4897Q0.5581 0.5469 0.5071 0.5784Q0.4561 0.6099 0.3862 0.6099Q0.2773 0.6099 0.2183 0.5405Q0.1592 0.4712 0.1592 0.3472Q0.1592 0.2646 0.1868 0.2046Q0.2144 0.1445 0.2661 0.1118Q0.3179 0.0791 0.3896 0.0791Z","w":0.7222,"b":[0.0474,-0.0098,0.6875,0.6982]},"D":{"d":"M0.6763 0.3506Q0.6763 0.2412 0.6338 0.1626Q0.5913 0.084 0.5159 0.042Q0.4404 0 0.3413 0H0.0771V0.688H0.3115Q0.4863 0.688 0.5813 0.6003Q0.6763 0.5127 0.6763 0.3506ZM0.5654 0.3506Q0.5654 0.4727 0.4995 0.5369Q0.4336 0.6011 0.3096 0.6011H0.187V0.0869H0.3301Q0.4019 0.0869 0.4546 0.1191Q0.5073 0.1514 0.5364 0.2104Q0.5654 0.2695 0.5654 0.3506Z","w":0.7222,"b":[0.0771,0.0,0.6763,0.688]},"E":{"d":"M0.6255 0.0879V0H0.0771V0.688H0.6055V0.6001H0.187V0.3955H0.5757V0.3081H0.187V0.0879Z","w":0.667,"b":[0.0771,0.0,0.6255,0.688]},"F":{"d":"M0.187 0.27V0H0.0771V0.688H0.5718V0.6001H0.187V0.3584H0.5605V0.27Z","w":0.6108,"b":[0.0771,0.0,0.5718,0.688]},"G":{"d":"M0.396 0.0781Q0.4595 0.0781 0.5159 0.0974Q0.5723 0.1167 0.606 0.1484V0.2627H0.4131V0.3506H0.7075V0.1079Q0.6528 0.0522 0.5706 0.0212Q0.4883 -0.0098 0.3945 -0.0098Q0.2856 -0.0098 0.208 0.0332Q0.1304 0.0762 0.0889 0.1562Q0.0474 0.2363 0.0474 0.3472Q0.0474 0.5156 0.1375 0.6069Q0.2275 0.6982 0.3926 0.6982Q0.5093 0.6982 0.5825 0.6577Q0.6558 0.6172 0.6924 0.5303L0.5889 0.4995Q0.562 0.5562 0.5125 0.583Q0.4629 0.6099 0.3911 0.6099Q0.2778 0.6099 0.2183 0.5413Q0.1587 0.4727 0.1587 0.3472Q0.1587 0.2212 0.2214 0.1497Q0.2842 0.0781 0.396 0.0781Z","w":0.7778,"b":[0.0474,-0.0098,0.7075,0.6982]},"H":{"d":"M0.187 0.311V0H0.0771V0.688H0.187V0.4028H0.5352V0.688H0.6455V0H0.5352V0.311Z","w":0.7222,"b":[0.0771,0.0,0.6455,0.688]},"I":{"d":"M0.1938 0.688V0H0.084V0.688Z","w":0.2778,"b":[0.084,0.0,0.1938,0.688]},"J":{"d":"M0.2339 -0.0098Q0.1401 -0.0098 0.0864 0.0359Q0.0327 0.0815 0.0156 0.1763L0.124 0.1934Q0.1328 0.1377 0.1614 0.1079Q0.1899 0.0781 0.2349 0.0781Q0.2827 0.0781 0.3098 0.1111Q0.3369 0.144 0.3369 0.207V0.5996H0.2026V0.688H0.4463V0.2095Q0.4463 0.1069 0.3899 0.0486Q0.3335 -0.0098 0.2339 -0.0098Z","w":0.5186,"b":[0.0156,-0.0098,0.4463,0.688]},"K":{"d":"M0.187 0.2593V0H0.0771V0.688H0.187V0.354L0.5117 0.688H0.6406L0.3477 0.3916L0.6748 0H0.541L0.2754 0.3267Z","w":0.6855,"b":[0.0771,0.0,0.6748,0.688]},"L":{"d":"M0.542 0.0879V0H0.0771V0.688H0.187V0.0879Z","w":0.5742,"b":[0.0771,0.0,0.542,0.688]},"M":{"d":"M0.1748 0.4448V0H0.0771V0.688H0.2231L0.3862 0.2417Q0.3955 0.2119 0.4043 0.179Q0.4131 0.146 0.418 0.1255Q0.4219 0.1406 0.428 0.1621Q0.4341 0.1836 0.4404 0.2041Q0.4468 0.2246 0.4502 0.2354L0.6123 0.688H0.7559V0H0.6572V0.4448Q0.6572 0.4751 0.6584 0.5137Q0.6597 0.5522 0.6621 0.5928Q0.6479 0.542 0.6367 0.5037Q0.6255 0.4653 0.6162 0.4404L0.4565 0H0.3784L0.2173 0.4404L0.1709 0.5928Q0.1724 0.5493 0.1736 0.5125Q0.1748 0.4756 0.1748 0.4448Z","w":0.833,"b":[0.0771,0.0,0.7559,0.688]},"N":{"d":"M0.1748 0.4399V0H0.0771V0.688H0.2041L0.5537 0.1167Q0.5469 0.2056 0.5469 0.2539V0.688H0.6455V0H0.5142L0.1689 0.5674Q0.1709 0.5327 0.1729 0.501Q0.1748 0.4692 0.1748 0.4399Z","w":0.7222,"b":[0.0771,0.0,0.6455,0.688]},"O":{"d":"M0.7319 0.3472Q0.7319 0.2378 0.6897 0.1577Q0.6475 0.0776 0.5703 0.0339Q0.4932 -0.0098 0.3877 -0.0098Q0.2817 -0.0098 0.2048 0.0332Q0.1279 0.0762 0.0867 0.1562Q0.0454 0.2363 0.0454 0.3472Q0.0454 0.4575 0.0862 0.5359Q0.127 0.6143 0.2039 0.6562Q0.2808 0.6982 0.3887 0.6982Q0.4956 0.6982 0.5725 0.6565Q0.6494 0.6147 0.6907 0.5364Q0.7319 0.458 0.7319 0.3472ZM0.6196 0.3472Q0.6196 0.4697 0.5591 0.5398Q0.4985 0.6099 0.3887 0.6099Q0.2778 0.6099 0.2173 0.5408Q0.1567 0.4717 0.1567 0.3472Q0.1567 0.2646 0.1843 0.2043Q0.2119 0.144 0.2639 0.1113Q0.3159 0.0786 0.3877 0.0786Q0.4995 0.0786 0.5596 0.1487Q0.6196 0.2188 0.6196 0.3472Z","w":0.7778,"b":[0.0454,-0.0098,0.7319,0.6982]},"P":{"d":"M0.6206 0.4775Q0.6206 0.4116 0.5911 0.3625Q0.5615 0.3135 0.5076 0.2864Q0.4536 0.2593 0.3789 0.2593H0.187V0H0.0771V0.688H0.373Q0.4912 0.688 0.5559 0.6328Q0.6206 0.5776 0.6206 0.4775ZM0.5098 0.4761Q0.5098 0.6011 0.3604 0.6011H0.187V0.3457H0.3643Q0.436 0.3457 0.4729 0.3784Q0.5098 0.4111 0.5098 0.4761Z","w":0.667,"b":[0.0771,0.0,0.6206,0.688]},"Q":{"d":"M0.7319 0.3472Q0.7319 0.252 0.6997 0.1782Q0.6675 0.1045 0.6072 0.0583Q0.5469 0.0122 0.4619 -0.0015Q0.481 -0.0586 0.5127 -0.084Q0.5444 -0.1094 0.5957 -0.1094Q0.624 -0.1094 0.6523 -0.1035L0.6519 -0.1797Q0.6021 -0.1914 0.5547 -0.1914Q0.479 -0.1914 0.4299 -0.1489Q0.3809 -0.1064 0.3501 -0.0068Q0.2534 -0.0005 0.1853 0.0444Q0.1172 0.0894 0.0813 0.1667Q0.0454 0.2441 0.0454 0.3472Q0.0454 0.4575 0.0862 0.5359Q0.127 0.6143 0.2039 0.6562Q0.2808 0.6982 0.3887 0.6982Q0.4976 0.6982 0.5742 0.6558Q0.6509 0.6133 0.6914 0.5347Q0.7319 0.4561 0.7319 0.3472ZM0.6196 0.3472Q0.6196 0.4697 0.5591 0.5398Q0.4985 0.6099 0.3887 0.6099Q0.2778 0.6099 0.2173 0.5408Q0.1567 0.4717 0.1567 0.3472Q0.1567 0.2646 0.1843 0.2043Q0.2119 0.144 0.2637 0.1111Q0.3154 0.0781 0.3877 0.0781Q0.4995 0.0781 0.5596 0.1484Q0.6196 0.2188 0.6196 0.3472Z","w":0.7778,"b":[0.0454,-0.1914,0.7319,0.6982]},"R":{"d":"M0.187 0.2773V0H0.0771V0.688H0.4072Q0.5259 0.688 0.5903 0.6357Q0.6548 0.5835 0.6548 0.4883Q0.6548 0.4131 0.6113 0.3608Q0.5679 0.3086 0.4922 0.2939L0.6846 0H0.5586L0.3862 0.2773ZM0.5439 0.4858Q0.5439 0.5425 0.5061 0.5718Q0.4683 0.6011 0.396 0.6011H0.187V0.3638H0.3999Q0.4692 0.3638 0.5066 0.396Q0.5439 0.4282 0.5439 0.4858Z","w":0.7222,"b":[0.0771,0.0,0.6846,0.688]},"S":{"d":"M0.6235 0.1929Q0.6235 0.0957 0.5488 0.043Q0.4741 -0.0098 0.3354 -0.0098Q0.0811 -0.0098 0.04 0.1699L0.1465 0.1895Q0.1616 0.1299 0.2092 0.1023Q0.2568 0.0747 0.3394 0.0747Q0.4248 0.0747 0.47 0.103Q0.5151 0.1313 0.5151 0.1865Q0.5151 0.2188 0.4993 0.2393Q0.4834 0.2598 0.4541 0.2729Q0.4302 0.2842 0.3945 0.293Q0.3589 0.3018 0.3125 0.312Q0.2593 0.3242 0.2251 0.3347Q0.1909 0.3452 0.1694 0.3567Q0.1479 0.3682 0.1313 0.3809Q0.103 0.4033 0.0876 0.4353Q0.0723 0.4673 0.0723 0.5112Q0.0723 0.6016 0.1406 0.6499Q0.209 0.6982 0.3374 0.6982Q0.4585 0.6982 0.5212 0.6609Q0.584 0.6235 0.6064 0.5352L0.499 0.5181Q0.4854 0.5693 0.446 0.5933Q0.4067 0.6172 0.3359 0.6172Q0.2593 0.6172 0.2192 0.5923Q0.1792 0.5674 0.1792 0.5176Q0.1792 0.4873 0.1951 0.4678Q0.2109 0.4482 0.2412 0.4346Q0.27 0.4214 0.3628 0.4009Q0.4053 0.3911 0.4429 0.3813Q0.4805 0.3716 0.5107 0.3584Q0.5312 0.3501 0.5491 0.3386Q0.5669 0.3271 0.5801 0.313Q0.6006 0.291 0.6121 0.2615Q0.6235 0.2319 0.6235 0.1929Z","w":0.667,"b":[0.04,-0.0098,0.6235,0.6982]},"T":{"d":"M0.3604 0.6001V0H0.2505V0.6001H0.0186V0.688H0.5918V0.6001Z","w":0.6108,"b":[0.0186,0.0,0.5918,0.688]},"U":{"d":"M0.3555 -0.0098Q0.2676 -0.0098 0.2039 0.0215Q0.1401 0.0527 0.1057 0.1113Q0.0713 0.1699 0.0713 0.2524V0.688H0.1816V0.2617Q0.1816 0.1714 0.2266 0.1248Q0.2715 0.0781 0.3564 0.0781Q0.4443 0.0781 0.4924 0.1267Q0.5405 0.1753 0.5405 0.2676V0.688H0.6504V0.2607Q0.6504 0.1763 0.6147 0.1157Q0.5791 0.0552 0.5129 0.0227Q0.4468 -0.0098 0.3555 -0.0098Z","w":0.7222,"b":[0.0713,-0.0098,0.6504,0.688]},"V":{"d":"M0.6616 0.688 0.3901 0H0.2773L0.0054 0.688H0.1206L0.2949 0.2178Q0.3052 0.1909 0.3145 0.1594Q0.3237 0.1279 0.3345 0.0933Q0.3462 0.1338 0.3557 0.165Q0.3652 0.1963 0.3735 0.2178L0.5469 0.688Z","w":0.667,"b":[0.0054,0.0,0.6616,0.688]},"W":{"d":"M0.4399 0.4253 0.3286 0H0.1973L0.0034 0.688H0.1167L0.231 0.2563Q0.2407 0.2197 0.2498 0.1799Q0.2588 0.1401 0.2666 0.1001Q0.271 0.1196 0.2769 0.1467Q0.2827 0.1738 0.2891 0.2014Q0.2954 0.229 0.3008 0.25L0.4165 0.688H0.5298L0.6416 0.2671Q0.6523 0.2251 0.6619 0.1824Q0.6714 0.1396 0.6787 0.1001Q0.6855 0.1289 0.6926 0.1584Q0.6997 0.188 0.7063 0.2136Q0.7129 0.2393 0.7168 0.2563L0.8276 0.688H0.9414L0.7471 0H0.6157L0.5054 0.4238Q0.4985 0.4492 0.4905 0.4858Q0.4824 0.5225 0.4727 0.5708Q0.4688 0.5469 0.4619 0.5173Q0.4551 0.4878 0.449 0.4626Q0.4429 0.4375 0.4399 0.4253Z","w":0.9438,"b":[0.0034,0.0,0.9414,0.688]},"X":{"d":"M0.3354 0.292 0.1372 0H0.0181L0.272 0.3589L0.0381 0.688H0.1572L0.3359 0.4268L0.5107 0.688H0.6299L0.4033 0.3613L0.6499 0H0.5308Z","w":0.667,"b":[0.0181,0.0,0.6499,0.688]},"Y":{"d":"M0.3882 0.2842V0H0.2783V0.2842L0.0205 0.688H0.1392L0.3335 0.3726L0.5283 0.688H0.647Z","w":0.667,"b":[0.0205,0.0,0.647,0.688]},"Z":{"d":"M0.5806 0.0884V0H0.0312V0.0806L0.4346 0.5996H0.0674V0.688H0.5586V0.6094L0.1553 0.0884Z","w":0.6108,"b":[0.0312,0.0,0.5806,0.688]}}};
+const stage=document.getElementById('stage'), canvas=document.getElementById('scene'), subline=document.getElementById('subline');
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+let renderer=null;
+try{renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true})}catch(e){}
+if(renderer){
+const namer=document.getElementById('namer'), nm=document.getElementById('nm'), ghost=document.getElementById('ghost'), after=document.getElementById('after'), hintP=document.getElementById('nmHint'), hint=document.getElementById('turnHint');
+
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.shadowMap.enabled=true; renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+renderer.outputColorSpace=THREE.SRGBColorSpace;
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(26,1,.1,100);
+
+/* light and floor: the floor only shows shadows; the backdrop is CSS so it follows the theme */
+const hemi=new THREE.HemisphereLight(0xffffff,0xffffff,1.6); scene.add(hemi);
+const key=new THREE.DirectionalLight(0xffffff,2.4); key.position.set(-2.2,4.2,-2.4); key.castShadow=true;
+key.shadow.mapSize.set(2048,2048); Object.assign(key.shadow.camera,{left:-6,right:6,top:4,bottom:-3,near:1,far:20});
+key.shadow.bias=-.0006; key.shadow.normalBias=.01; scene.add(key);
+const rim=new THREE.DirectionalLight(0xffffff,1.1); rim.position.set(2.5,2,4.5); scene.add(rim);
+const floorMat=new THREE.ShadowMaterial({opacity:.16});
+const floor=new THREE.Mesh(new THREE.PlaneGeometry(80,80),floorMat); floor.rotation.x=-Math.PI/2; floor.receiveShadow=true; scene.add(floor);
+
+const mats={
+  serif:new THREE.MeshStandardMaterial({roughness:.42,metalness:.05}),
+  plain:new THREE.MeshStandardMaterial({roughness:.85}),
+  dot:new THREE.MeshStandardMaterial({roughness:.3,metalness:.05})
+};
+function applyTheme(){
+  mats.serif.color.set(css('--scene-letter')); mats.plain.color.set(css('--scene-plain')); mats.dot.color.set(css('--scene-caret'));
+  floorMat.opacity=parseFloat(css('--scene-shadow'))||.16;
+  hemi.intensity=parseFloat(css('--scene-hemi'))||1.6;
+}
+
+/* glyph geometry from outline data (units: 1 = 1 em, baseline at y 0) */
+const geoCache={};
+function glyphGeo(font,ch){
+  const k=font+ch; if(geoCache[k])return geoCache[k];
+  const g=GLYPHS[font][ch], sp=new THREE.ShapePath();
+  const t=g.d.match(/[MLHVQCZ]|-?[\d.]+/g); let i=0,cmd,x=0,y=0; const n=()=>parseFloat(t[i++]);
+  while(i<t.length){
+    if(/[A-Z]/.test(t[i]))cmd=t[i++];
+    if(cmd==='M'){x=n();y=n();sp.moveTo(x,y);cmd='L'}
+    else if(cmd==='L'){x=n();y=n();sp.lineTo(x,y)}
+    else if(cmd==='H'){x=n();sp.lineTo(x,y)}
+    else if(cmd==='V'){y=n();sp.lineTo(x,y)}
+    else if(cmd==='Q'){const a=n(),b=n();x=n();y=n();sp.quadraticCurveTo(a,b,x,y)}
+    else if(cmd==='C'){const a=n(),b=n(),c=n(),d=n();x=n();y=n();sp.bezierCurveTo(a,b,c,d,x,y)}
+    else if(cmd==='Z'){/* closed by next moveTo */}
+  }
+  const geo=new THREE.ExtrudeGeometry(sp.toShapes(),{depth:.16,curveSegments:8,bevelEnabled:true,bevelThickness:.01,bevelSize:.005,bevelSegments:2});
+  geo.translate(-(g.b[0]+g.b[2])/2,0,-.08); geo.computeVertexNormals();
+  return geoCache[k]={geo,top:g.b[3],w:g.w};
+}
+function glyphMesh(font,ch,mat){
+  const {geo}=glyphGeo(font,ch), m=new THREE.Mesh(geo,mat); m.castShadow=true; m.receiveShadow=true; return m;
+}
+
+/* the character: a dot (pivot at its base so squash and stretch read naturally) that can become the I */
+const R=.085, caret=new THREE.Group();
+const dotMesh=new THREE.Mesh(new THREE.SphereGeometry(R,32,20),mats.dot); dotMesh.position.y=R; dotMesh.castShadow=true;
+const iMesh=glyphMesh('serif','I',mats.serif); iMesh.visible=false;
+caret.add(dotMesh,iMesh); scene.add(caret);
+caret.form='dot'; caret.idle=true;
+applyTheme();
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{applyTheme();dirty=true});
+new MutationObserver(()=>{applyTheme();dirty=true}).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+
+/* word layout */
+const TRACK=.25, word={letters:[],slot:-1,width:0,text:''};
+function layout(text,slotIndex){
+  word.letters.forEach(l=>scene.remove(l.group)); word.letters=[]; word.text=text; word.slot=slotIndex;
+  const adv=[...text].map(c=>c===' '?.35:GLYPHS.serif[c].w);
+  const total=adv.reduce((a,b)=>a+b,0)+TRACK*(text.length-1); let x=-total/2;
+  [...text].forEach((c,i)=>{
+    const cx=x+adv[i]/2; x+=adv[i]+TRACK;
+    const L={ch:c,x:cx,i,designed:false,group:new THREE.Group()};
+    L.group.position.x=cx;
+    if(c!==' '&&i!==slotIndex){
+      L.plain=glyphMesh('plain',c,mats.plain); L.serif=glyphMesh('serif',c,mats.serif);
+      L.plain.scale.set(.86,.86,.86); L.serif.scale.y=0.0001; L.serif.visible=false;
+      L.group.add(L.plain,L.serif); L.group.userData.letter=L;
+      L.plain.userData.letter=L; L.serif.userData.letter=L;
+    }
+    word.letters.push(L); scene.add(L.group);
+  });
+  word.width=total; fit(); dirty=true;
+}
+const topOf=L=>L.designed?glyphGeo('serif',L.ch).top:glyphGeo('plain',L.ch).top*.86;
+
+/* camera framing: fit the word, keep it in the upper half on wide screens */
+const look={x:0,y:0,tx:0,ty:0}; let dist=8, tdist=8, viewW=1, viewH=1, offset=0;
+function fit(){
+  const tan=Math.tan(THREE.MathUtils.degToRad(camera.fov/2));
+  const share=camera.aspect<1?.9:camera.aspect<1.5?.66:.52;
+  tdist=Math.max((word.width+.6)/(share*2*tan*camera.aspect),2.2/(2*tan));
+  if(reduce||!dist||dist===8)dist=tdist;
+}
+function resize(){
+  const r=stage.getBoundingClientRect(); if(!r.width)return; viewW=r.width; viewH=r.height;
+  renderer.setSize(viewW,viewH,false); camera.aspect=viewW/viewH;
+  offset=matchMedia('(max-width:760px)').matches?-.06:.11; // positive moves the word up
+  camera.setViewOffset(viewW,viewH,0,viewH*offset,viewW,viewH); camera.updateProjectionMatrix(); fit(); dist=tdist; dirty=true;
+}
+new ResizeObserver(resize).observe(stage);
+
+/* tweens driven by the render loop */
+const tweens=[]; let now=0;
+const tween=(dur,fn,ease=e=>e)=>new Promise(res=>{if(reduce||dur<=0){fn(1);res();return}tweens.push({t0:now,dur,fn,ease,res})});
+const wait=s=>tween(s,()=>{});
+const easeOut=t=>1-Math.pow(1-t,3), easeInOut=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+const spring=t=>1-Math.exp(-7*t)*Math.cos(11*t); // squash recovery, settles at 1
+const lerp=(a,b,t)=>a+(b-a)*t;
+
+function setScale(o,sx,sy){o.scale.set(sx,sy,sx)}
+async function hop(x1,y1,h=.42,dur=.3,z1=0){
+  // one continuous bounce: stretch in the air, squash on contact, and straight into the next hop
+  const x0=caret.position.x,y0=caret.position.y,z0=caret.position.z,dir=Math.sign(x1-x0)||1;
+  if(caret.idle)await tween(.1,e=>{const s=1-.22*Math.sin(Math.PI*e);setScale(caret,1/Math.sqrt(s),s)});   // anticipation from rest
+  caret.idle=false;
+  await tween(dur,t=>{
+    caret.position.set(lerp(x0,x1,t),lerp(y0,y1,t)+h*4*t*(1-t),lerp(z0,z1,t));
+    const s=1+.16*Math.sin(Math.PI*t); setScale(caret,1/Math.sqrt(s),s);
+    caret.rotation.z=caret.form==='I'?-dir*.2*Math.sin(Math.PI*t):0;
+  });
+  caret.position.set(x1,y1,z1); caret.rotation.z=0;
+  await tween(.15,e=>{const s=1-.34*Math.sin(Math.PI*e);setScale(caret,1/Math.sqrt(s),s)});              // contact
+  setScale(caret,1,1);
+}
+async function walk(x1,z1=0){ // a run of small hops along the floor
+  const x0=caret.position.x,z0=caret.position.z, n=Math.max(1,Math.ceil(Math.hypot(x1-x0,z1-z0)/.8));
+  for(let k=1;k<=n;k++)await hop(lerp(x0,x1,k/n),0,.22,.22,lerp(z0,z1,k/n));
+}
+async function toI(){ // the dot stretches up and becomes the I
+  if(caret.form==='I')return;
+  await tween(.1,e=>setScale(dotMesh,1+.3*e,1-.35*e));
+  await tween(.14,e=>setScale(dotMesh,1-.5*e,1+2.6*e),easeOut);
+  dotMesh.visible=false; setScale(dotMesh,1,1); iMesh.visible=true; caret.form='I';
+  await tween(.42,t=>{iMesh.scale.y=Math.max(.0001,lerp(.4,1,spring(t)))});
+}
+async function toDot(){ // the I drops back down into a dot
+  if(caret.form==='dot')return;
+  await tween(.16,e=>{iMesh.scale.y=Math.max(.0001,1-e*.85)},easeOut);
+  iMesh.visible=false; iMesh.scale.y=1; dotMesh.visible=true; caret.form='dot';
+  await tween(.3,t=>setScale(dotMesh,1,Math.max(.0001,spring(t))));
+}
+async function design(L){
+  if(!L||L.designed||!L.plain)return; L.designed=true;
+  const yTop=glyphGeo('serif',L.ch).top;
+  tween(.18,e=>{L.plain.scale.y=lerp(.86,.0001,e)}).then(()=>{L.plain.visible=false});
+  L.serif.visible=true;
+  tween(.34,t=>{L.serif.scale.y=Math.max(.0001,spring(t))});
+}
+async function bump(L){ // a letter flinches when landed on
+  if(!L.group)return; await tween(.36,t=>{const s=lerp(.88,1,spring(t)); L.group.scale.set(1/Math.sqrt(s),s,1)});
+}
+async function hopOnto(L){ const n=word.letters.length, d=n>9?.22:.3; const p=hop(L.x,glyphGeo('serif',L.ch).top,n>9?.4:.5,d); await wait(d*.8); bump(L); design(L); await p; }
+async function peek(dir){ const x=caret.position.x; await hop(x+dir*.12,0,.08,.16); await wait(.12); await hop(x,0,.08,.16); }
+
+let busy=false, mode='loggia', queued=null;
+const done=()=>{busy=false; if(queued){const q=queued;queued=null;designName(q)} };
+function typeSubline(text){
+  // every letter is laid out from the start and revealed in turn, so the line types from its final position
+  subline.innerHTML=[...text].map(c=>'<span style="visibility:hidden">'+c+'</span>').join('');
+  const spans=[...subline.children];
+  if(reduce){spans.forEach(sp=>sp.style.visibility='');return Promise.resolve()}
+  return new Promise(res=>{let i=0;const id=setInterval(()=>{spans[i++].style.visibility='';if(i>=spans.length){clearInterval(id);res()}},55)});
+}
+async function intro(){
+  busy=true; mode='loggia'; subline.textContent='';
+  layout('LOGGIA',4);
+  const Ls=word.letters, I=Ls[4];
+  iMesh.visible=false; dotMesh.visible=true; caret.form='dot'; setScale(dotMesh,1,1);
+  if(reduce){Ls.forEach(L=>{if(L.plain){L.designed=true;L.plain.visible=false;L.serif.visible=true;L.serif.scale.y=1}});
+    caret.position.set(I.x,0,0); dotMesh.visible=false; iMesh.visible=true; caret.form='I'; typeSubline('PORTFOLIO STUDIO'); done(); return}
+  // the dot starts beyond the left edge of the screen and hops in along the floor
+  const halfW=tdist*Math.tan(THREE.MathUtils.degToRad(camera.fov/2))*camera.aspect;
+  caret.position.set(-halfW-.6,0,0); caret.rotation.z=0; setScale(caret,1,1); caret.idle=true;
+  await wait(.4);
+  await walk(Ls[0].x-.7);
+  for(const i of[0,1,2,3])await hopOnto(Ls[i]);
+  await hop(I.x,0,.34,.28);            // drops into the gap
+  caret.idle=true;
+  await peek(1);                       // notices the A is still plain
+  await hopOnto(Ls[5]);
+  await hop(I.x,0,.4,.3);              // back into the gap
+  caret.idle=true; await wait(.2);
+  await toI();                         // and becomes the I
+  caret.idle=true;
+  await typeSubline('PORTFOLIO STUDIO');
+  done(); hintKey=0;
+  if(!hinted&&!reduce)setTimeout(()=>{if(!hinted&&mode==='loggia')hint.classList.add('on')},900);
+}
+
+/* any name works: accents fold to their base letter, joiners become spaces, the rest is set aside */
+const MAXN=18;
+function clean(raw){
+  const t=raw.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase()
+    .replace(/ß/g,'SS').replace(/Æ/g,'AE').replace(/Œ/g,'OE').replace(/Ø/g,'O').replace(/Ł/g,'L').replace(/Đ/g,'D').replace(/Þ/g,'TH')
+    .replace(/[-_.'’&+\/]/g,' ').replace(/[^A-Z ]/g,'').replace(/\s+/g,' ').trim();
+  if(t.length<=MAXN)return t;
+  const cut=t.lastIndexOf(' ',MAXN); return (cut>3?t.slice(0,cut):t.slice(0,MAXN)).trim(); // keep whole words where possible
+}
+async function designName(raw){
+  const text=clean(raw);
+  if(!text)return; if(busy){queued=text;return} busy=true; subline.textContent=''; hint.classList.remove('on');
+  const previewed=mode==='preview'&&word.text===text&&word.letters.every(L=>!L.designed); mode='name';
+  await home(); await toDot();
+  if(caret.position.y>0.01)await hop(caret.position.x,0,.3,.3);
+  if(!previewed)await swapWord(text);
+  const Ls=word.letters.filter(L=>L.plain);
+  if(caret.position.x>Ls[0].x-.6||Math.abs(caret.position.z)>.01)await walk(Ls[0].x-.7);
+  for(const L of Ls)await hopOnto(L);
+  const last=Ls[Ls.length-1], b=GLYPHS.serif[last.ch].b;
+  await hop(last.x+(b[2]-b[0])/2+.07+R,0,.3,.3);   // lands as the full stop
+  caret.idle=true;
+  namer.classList.add('named'); after.hidden=false; hintP.hidden=true; done();
+  const f=document.getElementById('f-name'); if(f&&!f.value)f.value=raw.trim();
+}
+async function swapWord(text){ // old letters fold down, the new ones spring up in the plain face
+  await Promise.all(word.letters.filter(L=>L.plain).map((L,k)=>wait(k*.03).then(()=>tween(.2,e=>L.group.scale.y=Math.max(.0001,1-e)))));
+  layout(text,-1);
+  const Ls=word.letters.filter(L=>L.plain); Ls.forEach(L=>L.group.scale.y=.0001);
+  await Promise.all(Ls.map((L,k)=>wait(k*.04).then(()=>tween(.36,t=>L.group.scale.y=Math.max(.0001,spring(t))))));
+}
+/* live preview: while someone types, their name appears in the plain face and the dot waits beside it */
+let previewText='';
+async function preview(raw){
+  const text=clean(raw);
+  if(busy||text===previewText)return; previewText=text;
+  if(!text)return; busy=true; subline.textContent=''; hint.classList.remove('on');
+  if(mode!=='preview'){ mode='preview'; await home(); await toDot(); if(caret.position.y>0.01)await hop(caret.position.x,0,.3,.3) }
+  await swapWord(text);
+  const x=word.letters[0].x-.7;
+  if(Math.abs(caret.position.x-x)>.05)await walk(x);
+  caret.idle=true; busy=false;
+  const cur=clean(nm.value);
+  if(queued){const q=queued;queued=null;designName(q)} else if(cur!==previewText)preview(nm.value);
+}
+
+/* interaction: parallax, poke a letter, design a name */
+const ray=new THREE.Raycaster(), ndc=new THREE.Vector2();
+function hit(e){
+  const r=canvas.getBoundingClientRect(); ndc.set((e.clientX-r.left)/r.width*2-1,-((e.clientY-r.top)/r.height)*2+1);
+  ray.setFromCamera(ndc,camera); const m=ray.intersectObjects(word.letters.filter(L=>L.plain).flatMap(L=>[L.plain,L.serif]).filter(o=>o.visible))[0];
+  return m&&m.object.userData.letter;
+}
+canvas.addEventListener('pointermove',e=>{
+  const r=canvas.getBoundingClientRect(); look.tx=((e.clientX-r.left)/r.width-.5); look.ty=((e.clientY-r.top)/r.height-.5);
+  if(drag){
+    const dx=e.clientX-drag.x, dy=e.clientY-drag.y; drag.x=e.clientX; drag.y=e.clientY; drag.moved+=Math.abs(dx)+Math.abs(dy);
+    const k=Math.PI*2.2/Math.max(600,r.width);
+    orbit.vy=-dx*k; orbit.vp=dy*k; orbit.yaw+=orbit.vy; orbit.pitch=clampP(orbit.pitch+orbit.vp); orbit.at=now;
+    if(drag.moved>6){hint.classList.remove('on');hinted=true}
+    return;
+  }
+  canvas.classList.toggle('pointing',!busy&&!!hit(e));
+});
+canvas.addEventListener('pointerleave',()=>{look.tx=0;look.ty=0});
+/* the turn: yaw goes all the way round, pitch from just above the word to underneath it */
+const orbit={yaw:0,pitch:0,vy:0,vp:0,at:-99}; let drag=null, hinted=false;
+const clampP=p=>Math.max(-1.25,Math.min(1.45,p));
+const free=()=>!busy&&!reduce&&(mode==='loggia'||mode==='name');
+canvas.addEventListener('pointerdown',e=>{
+  if(!free()||e.button!==0)return;
+  drag={x:e.clientX,y:e.clientY,moved:0,id:e.pointerId}; canvas.setPointerCapture(e.pointerId); canvas.classList.add('dragging');
+});
+const endDrag=()=>{if(!drag)return; drag.done=drag.moved; canvas.classList.remove('dragging'); lastDrag=drag; drag=null; orbit.at=now};
+let lastDrag=null;
+canvas.addEventListener('pointerup',endDrag); canvas.addEventListener('pointercancel',endDrag);
+canvas.addEventListener('dblclick',()=>{orbit.at=-99});
+async function home(){ // bring the word back to face the visitor before the dot does anything
+  orbit.at=-99; orbit.vy=orbit.vp=0;
+  if(Math.abs(orbit.yaw)<.02&&Math.abs(orbit.pitch)<.02){orbit.yaw=orbit.pitch=0;return}
+  const y0=orbit.yaw, p0=orbit.pitch, y1=Math.round(y0/(Math.PI*2))*Math.PI*2;
+  await tween(.6,t=>{orbit.yaw=lerp(y0,y1,t);orbit.pitch=lerp(p0,0,t)},easeInOut); orbit.yaw=orbit.pitch=0;
+}
+canvas.addEventListener('click',async e=>{
+  if(lastDrag&&lastDrag.done>6){lastDrag=null;return} lastDrag=null;
+  if(Math.abs(orbit.yaw%(Math.PI*2))>.05||Math.abs(orbit.pitch)>.05)return;
+  const L=hit(e); if(!L||busy)return; busy=true;
+  const home={x:caret.position.x,y:caret.position.y,form:caret.form};
+  await toDot(); await hopOnto(L);
+  await wait(.1); await hop(home.x,home.y,.42,.32);
+  caret.idle=true; if(home.form==='I')await toI();
+  done();
+});
+
+/* the dot notices the visitor: rest the pointer on the stage and it hops over to it */
+const floorPlane=new THREE.Plane(new THREE.Vector3(0,1,0),0), spot=new THREE.Vector3();
+const canHover=matchMedia('(hover:hover) and (pointer:fine)').matches;
+let restAt=0, inside=false, lastVisit=-10, moved=false;
+canvas.addEventListener('pointermove',e=>{
+  const r=canvas.getBoundingClientRect(); ndc.set((e.clientX-r.left)/r.width*2-1,-((e.clientY-r.top)/r.height)*2+1);
+  ray.setFromCamera(ndc,camera); inside=!!ray.ray.intersectPlane(floorPlane,spot); restAt=now; moved=true;
+});
+canvas.addEventListener('pointerleave',()=>{inside=false});
+async function visit(){
+  busy=true; lastVisit=now; moved=false;
+  const home={x:caret.position.x,y:caret.position.y,form:caret.form};
+  const halfW=dist*Math.tan(THREE.MathUtils.degToRad(camera.fov/2))*camera.aspect*.9;
+  const tx=Math.max(-halfW,Math.min(halfW,spot.x)), tz=Math.max(-.4,Math.min(2.2,spot.z));
+  await toDot();
+  if(caret.position.y>0.01)await hop(caret.position.x+(tx>caret.position.x?.4:-.4),0,.3,.3,Math.min(.5,tz));
+  await walk(tx,tz);
+  caret.idle=true; await wait(.15);
+  await hop(tx,0,.32,.3,tz); await hop(tx,0,.18,.24,tz);   // a hello
+  caret.idle=true;
+  for(let i=0;i<20&&!moved;i++)await wait(.1);             // waits until the pointer moves on
+  await walk(home.x,0);
+  if(home.y>0.01)await hop(home.x,home.y,.4,.3);
+  caret.idle=true; if(home.form==='I')await toI();
+  done();
+}
+
+const HINT=hintP.textContent;
+namer.addEventListener('submit',e=>{e.preventDefault();designName(nm.value)});
+let pt=0; nm.addEventListener('input',()=>{
+  namer.classList.toggle('typing',!!nm.value); clearTimeout(pt);
+  if(!nm.value.trim()){previewText='';hintP.textContent=HINT;return}
+  hintP.textContent=clean(nm.value)?HINT:'Letters A to Z for now, accents are fine.';
+});
+document.getElementById('back').addEventListener('click',async()=>{
+  after.hidden=true; hintP.hidden=false; namer.classList.remove('named','typing'); nm.value=''; previewText='';
+  if(!busy){await home(); await toDot(); if(caret.position.y>0.01)await hop(caret.position.x,0,.3,.3); intro()}
+});
+/* the empty field types example names to itself, so it reads as something to try */
+const EX=['Maya','Jonas','Studio Nord','Elena','Your name'];
+(async()=>{
+  if(reduce){ghost.textContent='Your name';return}
+  let i=0; const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+  await sleep(2600);
+  for(;;){
+    const w=EX[i++%EX.length];
+    for(let k=1;k<=w.length;k++){ghost.textContent=w.slice(0,k);await sleep(90)}
+    await sleep(1500);
+    for(let k=w.length;k>=0;k--){ghost.textContent=w.slice(0,k);await sleep(40)}
+    await sleep(350);
+  }
+})();
+/* once the opening has played, the field draws attention to itself once */
+setTimeout(()=>{namer.classList.add('nudge');setTimeout(()=>namer.classList.remove('nudge'),2200)},9000);
+
+/* render loop: only runs while the hero is on screen */
+/* PORTFOLIO STUDIO keeps the logo's proportions: its top sits 1.11 cap heights below the
+   baseline, its capitals are a quarter of the wordmark's, and it spans 79% of the word's ink width */
+const pa=new THREE.Vector3(), pb=new THREE.Vector3(), mctx=document.createElement('canvas').getContext('2d');
+let subKey='', hintKey=0; addEventListener('resize',()=>{hintKey=0});
+function placeSubline(){
+  if(!word.letters.length)return;
+  if(!hintKey){pa.set(0,0,0).project(camera); stage.style.setProperty('--hint-top',((1-pa.y)/2*viewH+viewH*.16).toFixed(0)+'px'); hintKey=1}
+  if(mode!=='loggia')return;
+  const first=word.letters[0], lastL=word.letters[word.letters.length-1], gb=c=>GLYPHS.serif[c].b;
+  const capH=gb('L')[3];
+  pa.set(0,0,0).project(camera); pb.set(0,capH,0).project(camera);
+  const base=(1-pa.y)/2*viewH, capPx=Math.abs(pb.y-pa.y)/2*viewH;
+  pa.set(first.x-(gb(first.ch)[2]-gb(first.ch)[0])/2,0,0).project(camera);
+  pb.set(lastL.x+(gb(lastL.ch)[2]-gb(lastL.ch)[0])/2,0,0).project(camera);
+  const inkPx=(pb.x-pa.x)/2*viewW;
+  const size=capPx*.25/.7, target=inkPx*.787, text='PORTFOLIO STUDIO';
+  const key=[base|0,size.toFixed(1),target|0].join(); if(key===subKey)return; subKey=key;
+  mctx.font='400 '+size+'px Jost, Futura, sans-serif';
+  const m=mctx.measureText(text), track=Math.max(0,(target-m.width)/(text.length-1));
+  // with line-height 1 the capitals start this far below the top of the line box
+  const capTop=((size-(m.fontBoundingBoxAscent+m.fontBoundingBoxDescent))/2+m.fontBoundingBoxAscent-m.actualBoundingBoxAscent)||size*.2;
+  Object.assign(subline.style,{top:(base+capPx*1.11-capTop)+'px',fontSize:size+'px',letterSpacing:track+'px',textIndent:track+'px',lineHeight:'1'});
+}
+let dirty=true, visible=true, last=performance.now();
+new IntersectionObserver(es=>{visible=es[0].isIntersecting}).observe(stage);
+const v=new THREE.Vector3();
+function frame(t){
+  requestAnimationFrame(frame);
+  const dt=Math.max(0,Math.min(.05,(t-last)/1000)); last=t; now+=dt;
+  if(!visible)return;
+  for(let i=tweens.length-1;i>=0;i--){const w=tweens[i],p=Math.min(1,(now-w.t0)/w.dur);w.fn(w.ease(p));if(p>=1){tweens.splice(i,1);w.res()}}
+  if(!busy&&canHover&&!reduce&&inside&&!drag&&mode!=='preview'&&document.activeElement!==nm&&now-orbit.at>4&&orbit.yaw===0&&orbit.pitch===0&&now-restAt>1.4&&now-lastVisit>4)visit();
+  if(!busy&&caret.idle&&caret.form==='dot'&&!reduce)setScale(caret,1,1+.035*Math.sin(now*4)); // the resting dot breathes
+  const k=reduce?1:1-Math.pow(.9,dt*60);
+  look.x+=(look.tx-look.x)*k; look.y+=(look.ty-look.y)*k; dist+=(tdist-dist)*(reduce?1:1-Math.pow(.95,dt*60));
+  // momentum after a drag, then the word drifts back to face the visitor after a few quiet seconds
+  if(!drag){
+    orbit.vy*=Math.pow(.92,dt*60); orbit.vp*=Math.pow(.9,dt*60); orbit.yaw+=orbit.vy; orbit.pitch=clampP(orbit.pitch+orbit.vp);
+    if(now-orbit.at>3.2){
+      const y1=Math.round(orbit.yaw/(Math.PI*2))*Math.PI*2, kk=1-Math.pow(.955,dt*60);
+      orbit.yaw+=(y1-orbit.yaw)*kk; orbit.pitch+=(0-orbit.pitch)*kk;
+      if(Math.abs(orbit.yaw-y1)<.002&&Math.abs(orbit.pitch)<.002){orbit.yaw=0;orbit.pitch=0}
+    }
+  }
+  const by=.3+dist*.09-.34, rad=Math.hypot(by,dist);
+  const th=orbit.yaw, ph=Math.max(.06,Math.min(Math.PI-.06,Math.atan2(dist,by)-orbit.pitch)); // no mouse parallax: at rest the word faces you dead straight
+  camera.position.set(rad*Math.sin(ph)*Math.sin(th), .34+rad*Math.cos(ph), rad*Math.sin(ph)*Math.cos(th));
+  camera.lookAt(0,.34,0);
+  const turning=Math.abs(orbit.yaw)>.04||Math.abs(orbit.pitch)>.04;
+  if(turning!==stage.classList.contains('turning'))stage.classList.toggle('turning',turning);
+  floor.visible=camera.position.y>.05; // from underneath there is no floor to cast on
+  canvas.classList.toggle('free',free());
+  renderer.render(scene,camera);
+  // place the subline under the word and the horizon line behind it
+  placeSubline();
+  v.set(0,0,-30).project(camera); stage.style.setProperty('--hz',((1-v.y)/2*100).toFixed(1)+'%');
+  canvas.classList.add('on');
+}
+resize(); requestAnimationFrame(frame);
+intro();
+}
+
+</script>
+
+</body>
+</html>
